@@ -1,6 +1,7 @@
 *{
     padding: 0;
     margin: 0;
+    font-family: 'Satisfy', cursive;
 }
 
 header {
@@ -8,8 +9,8 @@ header {
     width: 100%;
     border-top: 5px solid #000000;
     border-bottom: 8px solid #000000;
-    font-family: 'Satisfy', cursive;
     background-color: lightgray;
+    
 }
 
 .faceToFaceLogo {
@@ -19,7 +20,7 @@ header {
 
 .divHeader {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
 }
 
@@ -41,22 +42,20 @@ html, body {
     background-image: url(imagenes/fondo.jpg);
     width: 100%;
     background-repeat: repeat-y;
+    
 }
 
 .contenedorLogin{
     display: flex;
     flex-direction: column;
     background-color: lightgray;
-}
-
-h2{
-    margin: auto;
+    border-radius: 5px;
 }
 
 .divMain {
-    padding-top: 160px;
-    margin-left: 20%;
-    margin-right: 20%;
+    padding-top: 230px;
+    margin-left: 25%;
+    margin-right: 25%;
 }
 
 a[href=".conectar"] {
@@ -70,3 +69,45 @@ a[href=".conectar"] {
     font-size: 1em;
     cursor: pointer;
 }
+
+.centrar{
+    text-align: center;
+    padding-bottom:30px;
+    font-size: 2em;
+}
+
+.conectar{
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.6em;
+}
+
+input{
+    width: 60%;
+    border-radius: 3px;
+    font-size: 0.8em;
+    padding: 4px;
+}
+
+.margenIzquierdo{
+    padding: 10px;
+}
+
+form{
+    margin:2%;
+    font-size: 1.5em;
+}
+
+.enlace{
+    color: black;
+    font-size: 2em;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    cursor: pointer;   
+}
+
+a:hover{
+    color:blue
+}
+
