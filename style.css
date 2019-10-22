@@ -7,10 +7,22 @@
 header {
     position: fixed;
     width: 100%;
+    background-color: lightgray;
+}
+
+.divHeader {
     border-top: 5px solid #000000;
     border-bottom: 8px solid #000000;
-    background-color: lightgray;
-    
+}
+
+.divMenu {
+    border-bottom: 5px solid #000000;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
 }
 
 .faceToFaceLogo {
@@ -18,9 +30,9 @@ header {
     padding-top: 10px;
 }
 
-.divHeader {
+.divLogoTitulo {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
 }
 
@@ -42,12 +54,9 @@ html, body {
     background-image: url(imagenes/fondo.jpg);
     width: 100%;
     background-repeat: repeat-y;
-    
 }
 
 .contenedorLogin{
-    display: flex;
-    flex-direction: column;
     background-color: lightgray;
     border-radius: 5px;
     margin-bottom: 5%;
@@ -59,21 +68,17 @@ html, body {
     margin-right: 20%;
 }
 
-a[href=".conectar"] {
-    border-radius: 5px;
+a {
     text-decoration: none;
-    white-space: nowrap;
-    color: white;
-    border: 2px solid rgb(0, 0, 0);
-    background-color: #a79f9d;
-    padding: 1%;
-    font-size: 1em;
+    color: black;
 }
 
-.centrar{
-    text-align: center;
-    padding-bottom:30px;
-    font-size: 2em;
+form {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto auto;
+    margin-left: 20%;
+    grid-row-gap: 5px;
 }
 
 .conectar{
@@ -118,8 +123,8 @@ a:hover{
     color:blue
 }
 
-a{
-    cursor: pointer;
+.seleccionado:hover {
+    background-image: linear-gradient(lightgray, gray, lightgray);
 }
 
 label {
