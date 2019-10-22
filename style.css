@@ -67,7 +67,6 @@ a[href=".conectar"] {
     background-color: #a79f9d;
     padding: 1%;
     font-size: 1em;
-    cursor: pointer;
 }
 
 .centrar{
@@ -103,11 +102,14 @@ form{
     font-size: 2em;
     display: flex;
     flex-direction: row;
-    justify-content:space-around;
-    cursor: pointer;   
+    justify-content:space-around;  
 }
 
 a:hover{
     color:blue
+}
+
+a{
+    cursor: pointer;
 }
 
