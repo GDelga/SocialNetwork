@@ -1,4 +1,4 @@
-*{
+* {
     padding: 0;
     margin: 0;
     font-family: 'Satisfy', cursive;
@@ -66,14 +66,14 @@ html, body {
     background-repeat: repeat-y;
 }
 
-.contenedorLogin{
+.contenedorLogin {
     background-color: lightgray;
     font-size: 1.3em;
     padding: 10px;
     padding-bottom: 20px;
 }
 
-h2{
+h2 {
     margin: auto;
     font-size: 2em;
     text-align: center;
@@ -121,7 +121,7 @@ a {
     cursor: pointer;
 }
 
-.formInicioSesion input{
+.formInicioSesion input {
     width: 60%;
     font-size: 0.8em;
     padding: 4px;
@@ -129,7 +129,7 @@ a {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.formRegistro input{
+.formRegistro input {
     width: 88%;
     font-size: 0.8em;
     padding: 4px;
@@ -147,23 +147,23 @@ a {
 }
 
 .divMenu a, .divMenuPerfil a {
-    display:block;
+    display: block;
 }
 
 .divRadio {
-    display:flex;
+    display: flex;
     width: 70%;
 }
 
-.divPerfil{
+.divPerfil {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row;
 }
 
-.divPerfil img{
-    width: 40px; 
+.divPerfil img {
+    width: 40px;
     height: 40px;
     padding-right: 5px;
     display: flex;
@@ -172,7 +172,7 @@ a {
     flex-direction: row;
 }
 
-.divDatos{
+.divDatos {
     font-size: 20px;
     display: flex;
     align-items: center;
@@ -183,29 +183,67 @@ a {
     text-align: left;
 }
 
-.contenedorPerfil{
+.contenedorPerfil {
     display: flex;
     flex-direction: row;
     padding: 5%;
 }
-.contenedorPerfil img{
-    width: 200px; 
-    height: 200px; 
+
+.contenedorPerfil img {
+    width: 200px;
+    height: 200px;
     padding: 5%;
     margin-top: auto;
     margin-bottom: auto;
-    vertical-align: middle; 
+    vertical-align: middle;
 }
 
-.info{
+.info {
     display: flex;
     flex-direction: column;
-    
 }
 
-li{
-    font-size:1.7em;
-    color:black;
+li {
+    font-size: 1.7em;
+    color: black;
     list-style: none;
+}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Cosas necesarias para el html mis amigos*/
+
+.contenidoSolicitudAmistad {
+    display: flex;
+    flex-direction: column;
+}
+
+.contenidoSolicitudAmistad img {
+    width: 80px;
+    height: 80px;
+}
+
+.divirEnDos {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto;
+    background: rgb(184, 225, 250);
+    margin: 4px;
+    border-radius: 10px;
+}
+
+.botones {
+    display: flex;
+    flex-direction: row;
 }
