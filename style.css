@@ -227,7 +227,39 @@ li{
 
 }
 
+.divResultadoBusqueda {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 4%;
+}
 
+.divPerfilEncontrado {
+    display:flex;
+    flex-direction: column;
+    background-color: rgb(227, 186, 238);
+    margin-right: 20px;
+    margin-top: 10px;
+    padding: 10px;
+    align-items: center;
+    font-size: 1.3em;
+}
+
+.imgPerfilBusqueda {
+    width: 100px;
+    height: 100px;
+}
+
+.divPerfilEncontrado .seleccionado:hover {
+    background-image: linear-gradient(rgb(170, 137, 177), rgb(91, 52, 99), rgb(220, 205, 223));
+}
+
+.divPerfilEncontrado .boton {
+    border-radius: 5px;
+    white-space: nowrap;
+    border: 2px solid rgb(91, 52, 99);
+    background-color: rgb(175, 129, 184);
+}
 
 
 
