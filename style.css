@@ -108,6 +108,7 @@ a {
     margin-left: 1%;
     grid-row-gap: 5px;
 }
+
 .boton {
     border-radius: 5px;
     white-space: nowrap;
@@ -145,10 +146,8 @@ a {
     background-image: linear-gradient(lightgray, gray, lightgray);
 }
 
-.divMenu a {
+.divMenu a, .divMenuPerfil a {
     display:block;
-    padding-top: 4px;
-    padding-bottom: 4px;
 }
 
 .divRadio {
@@ -157,29 +156,28 @@ a {
 }
 
 .divPerfil{
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto;
-    margin-top: auto;
-    margin-bottom: auto;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
 }
 
 .divPerfil img{
     width: 40px; 
     height: 40px;
-}
-
-.divFotoPerfil {
-    text-align: right;
-    margin-top: auto;
-    margin-left:auto;
+    padding-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
 }
 
 .divDatos{
     font-size: 20px;
-    margin-top: auto;
-    margin-bottom: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
     padding-left: 5%;
     color: black;
     text-align: left;
