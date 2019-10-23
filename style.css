@@ -15,6 +15,16 @@ header {
     border-bottom: 8px solid #000000;
 }
 
+.divMenuPerfil {
+    border-bottom: 5px solid #000000;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    grid-template-rows: auto;
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+}
+
 .divMenu {
     border-bottom: 5px solid #000000;
     display: grid;
@@ -137,9 +147,67 @@ a {
 
 .divMenu a {
     display:block;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 .divRadio {
     display:flex;
     width: 70%;
+}
+
+.divPerfil{
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+}
+
+.divPerfil img{
+    width: 40px; 
+    height: 40px;
+}
+
+.divFotoPerfil {
+    text-align: right;
+    margin-top: auto;
+    margin-left:auto;
+}
+
+.divDatos{
+    font-size: 20px;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-left: 5%;
+    color: black;
+    text-align: left;
+}
+
+.contenedorPerfil{
+    display: flex;
+    flex-direction: row;
+    padding: 5%;
+}
+.contenedorPerfil img{
+    width: 200px; 
+    height: 200px; 
+    padding: 5%;
+    margin-top: auto;
+    margin-bottom: auto;
+    vertical-align: middle; 
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+li{
+    font-size:1.7em;
+    color:black;
+    list-style: none;
+
 }
