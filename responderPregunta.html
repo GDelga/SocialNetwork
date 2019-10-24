@@ -34,7 +34,7 @@
                 <a href="preguntas.html">Preguntas</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="IniciarSesion.html">Desconectarse</a>
+                <a href="iniciarSesion.html">Desconectarse</a>
             </div>
             <div class="divPerfil">
                 <div class="divFotoPerfil"><img src="imagenes/perfil.png" alt=""></div>
@@ -46,27 +46,27 @@
     <main>
         <div class="divMain">
             <div>
-                <h2>Preguntas Aleatorias</h2>
+                <h2>¿Nintendo Switch, PS4 o XBox One?</h2>
             </div>
             <div class="divResultadoBusqueda">
-                <table class="centrarTexto">
-                    <tr>
-                        <td>¿Nintendo Switch, PS4 o XBox One?</td>
-                    </tr>
-                    <tr>
-                        <td>¿Cuál es el personaje más irritante de Juego de Tronos?</td>
-                    </tr>
-                    <tr>
-                        <td>¿Cuál es tu libro favorito?</td>
-                    </tr>
-                    <tr>
-                        <td>¿Capitana Marvel o Wonder Woman?</td>
-                    </tr>
-                    <tr>
-                        <td>¿Capitán América o Iron Man?</td>
-                    </tr>
-                </table>
-                <div class="center"><a class="botonCrearPregunta" href=".conectar">¡Añade tus preguntas!</a></div>
+                <form action="">
+                    <table>
+                        <tr>
+                            <td><input type="radio" id="Nintendo Switch" name="consola" value="Nintendo Switch">Nintendo
+                                Switch</td>
+                        </tr>
+                        <tr>
+                            <td><input type="radio" id="PS4" name="consola" value="PS4">PS4</td>
+                        </tr>
+                        <tr>
+                            <td><input type="radio" id="xbox" name="consola" value="xbox">XBox One</td>
+                        </tr>
+                        <tr>
+                            <td><input type="radio" id="no" name="consola" value="no">No me gustan los videojuegos</td>
+                        </tr>
+                    </table>
+                    <div class="center"><a class="botonCrearPregunta" href=".conectar">Responder</a></div>
+                </form>
             </div>
         </div>
     </main>

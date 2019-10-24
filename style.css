@@ -276,9 +276,12 @@ td {
 }
 
 table{
-    text-align: center;
     font-size: 1.7em;
     border-spacing: 10px;
+}
+
+.centrarTexto {
+    text-align: center;
 }
 
 .botonCrearPregunta {
@@ -297,6 +300,10 @@ table{
 
 .botonCrearPregunta:hover {
     background-image: linear-gradient(#f09a9a, #e23166, #c0d3ec);
+}
+
+.divResultadoBusqueda input[type="radio"] {
+    margin-right: 5px;
 }
 
 
