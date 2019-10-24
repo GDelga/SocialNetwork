@@ -392,17 +392,6 @@ table{
     padding: 2px;
 }
 
-div.contenedorMisAmigos {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 20px;
-    margin-top: 10px;
-}
-
-.divInfoMisAmigos{
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 1.2em;
+.fondoAzul{
+    background: rgb(184, 225, 250);
 }
