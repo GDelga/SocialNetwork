@@ -261,6 +261,44 @@ li{
     background-color: rgb(175, 129, 184);
 }
 
+tr:nth-child(odd) {
+    background-color:#f09a9a;
+}
+tr:nth-child(even) {
+    background-color:#c0d3ec;
+}
+
+td {
+    padding-top:5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+table{
+    text-align: center;
+    font-size: 1.7em;
+    border-spacing: 10px;
+}
+
+.botonCrearPregunta {
+    border-radius: 5px;
+    white-space: nowrap;
+    border: 2px solid #e23166;
+    background-color: #f58ed3;
+    font-size: 1.6em;
+    color:white;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+}
+
+.botonCrearPregunta:hover {
+    background-image: linear-gradient(#f09a9a, #e23166, #c0d3ec);
+}
+
 
 
 
