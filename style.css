@@ -402,3 +402,72 @@ table{
 .fondoAzul{
     background: rgb(184, 225, 250);
 }
+
+
+
+
+
+
+
+
+/* Cosas necesarias para el html boton contestar pregunta*/
+.contenedorPregunta{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+    font-size: 1.5em;
+
+}
+
+.contenedorPregunta a{
+    border-radius: 5px;
+    white-space: nowrap;
+    border: 2px solid rgb(119, 114, 37);
+    background-color: rgb(184, 160, 129);
+    color: white;
+    padding: 2px;
+}
+
+.contenedorPregunta a:hover{
+    background-image: linear-gradient(rgb(184, 160, 129), rgb(119, 114, 37), rgb(235, 219, 199));
+}
+
+.infoSuperior{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: lightyellow;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.infoInferior{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+}
+.fondoAmarillo{
+    background: lightyellow;
+}
+
+.fondoRojo{
+    background: rgb(241, 172, 172);
+}
+
+.fondoVerde{
+    background: rgb(199, 235, 199);
+}
+
+.colorRojo{
+    color:red;
+}
+
+.colorVerde{
+    color:green;
+}
