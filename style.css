@@ -261,6 +261,8 @@ li{
     background-color: rgb(175, 129, 184);
 }
 
+/*Cosas para el html de responder pregunta*/
+
 tr:nth-child(odd) {
     background-color:#f09a9a;
 }
@@ -304,6 +306,16 @@ table{
 
 .divResultadoBusqueda input[type="radio"] {
     margin-right: 5px;
+}
+
+/*Cosas para el html de responder preguntas de amigo*/
+h4{
+    font-size: 1em;
+    text-align: center;
+    background-color: white;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    padding: 3px
 }
 
 
@@ -410,6 +422,8 @@ table{
 
 
 
+
+
 /* Cosas necesarias para el html boton contestar pregunta*/
 .contenedorPregunta{
     display: flex;
@@ -425,7 +439,7 @@ table{
     border-radius: 5px;
     white-space: nowrap;
     border: 2px solid rgb(119, 114, 37);
-    background-color: rgb(184, 160, 129);
+    background-color: rgb(175, 148, 112);
     color: white;
     padding: 2px;
 }
@@ -439,21 +453,22 @@ table{
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    background: lightyellow;
+    background: rgb(255, 255, 170);
     border-radius: 10px;
     margin: 10px;
 }
 
-.infoInferior{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-    border-radius: 10px;
-    margin: 10px;
+h3{
+    margin: auto;
+    text-align: center;
+    background-color: white;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    padding: 3px
 }
+
 .fondoAmarillo{
-    background: lightyellow;
+    background: rgb(255, 255, 170);
 }
 
 .fondoRojo{
