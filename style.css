@@ -243,6 +243,8 @@ li{
     padding: 10px;
     align-items: center;
     font-size: 1.3em;
+    justify-content: center;
+    text-align: center;
 }
 
 .imgPerfilBusqueda {
@@ -334,6 +336,7 @@ h4{
 .contenidoSolicitudAmistad {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     text-align: left;
     margin-top: auto;
     margin-bottom: auto;
@@ -388,6 +391,7 @@ h4{
     display: flex;
     flex-direction: row;
     align-items: center;
+    flex-wrap: wrap;
     justify-content: space-around;
     background: rgb(184, 225, 250);
     margin: 10px;
