@@ -61,9 +61,9 @@ h1 {
 }
 
 html, body {
-    background-image: url(imagenes/fondo.jpg);
+    background-image: url(imagenes/fondo2.jpg);
     width: 100%;
-    background-repeat: repeat-y;
+    height: 100%;
 }
 
 .contenedorLogin{
