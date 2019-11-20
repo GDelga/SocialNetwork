@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="imagenes/FaceToFace.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <title>Face To Face</title>
+</head>
+
+<body>
+    <header>
+        <div class="divHeader">
+            <div class="divLogoTitulo">
+                <div class="divTitulo">
+                    <div class="faceToFaceLogo">
+                        <img src="imagenes/logo.png" alt="">
+                    </div>
+                    <div>
+                        <h1>Face To Face</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divMenu">
+            <div class="seleccionado">
+                <a href="iniciarSesion.html">Iniciar Sesión</a>
+            </div>
+            <div class="seleccionado">
+                <a href="registrarse.html">Registrarse</a>
+            </div>
+
+        </div>
+    </header>
+    <main>
+        <div class="divMain">
+            <div>
+                <h2>Registrarse</h2>
+            </div>
+            <div class="contenedorLogin">
+                <form class="formRegistro" action="" method="post">
+                    <div><label>Email:</label></div>
+                    <div><input type="text" name="nombre"></div>
+                    <div><label>Contraseña:</label></div>
+                    <div><input type="text" name="contrasena"></div>
+                    <div><label>Nombre completo:</label></div>
+                    <div><input type="text" name="nomCom"></div>
+                    <div><label>Género:</label></div>
+                    <div class=divRadio>
+                        <input type="radio" name="genero" value="maculino"> Masculino
+                        <input type="radio" name="genero" value="femenino"> Femenino
+                        <input type="radio" name="genero" value="otro"> Otro
+                    </div>
+                    <div><label>Fecha de nacimiento:</label></div>
+                    <div><input type="date" name="fecha"></div>
+                    <div><label>Imagen de perfil:</label></div>
+                    <div><input type="file" value="image/*" name="archivo"></div>
+                </form>
+                <div class="center"><a class="boton seleccionado" href=".conectar">Registrarse</a></div>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>
