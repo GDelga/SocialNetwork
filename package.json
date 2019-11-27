@@ -1,0 +1,24 @@
+{
+  "name": "socialnetwork",
+  "version": "1.0.0",
+  "description": "Practica AW",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GDelga/SocialNetwork.git"
+  },
+  "author": "Guillermo Delgado Yepes & Ana Corral Descargue",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GDelga/SocialNetwork/issues"
+  },
+  "homepage": "https://github.com/GDelga/SocialNetwork#readme",
+  "dependencies": {
+    "ejs": "^2.7.4",
+    "express": "^4.17.1",
+    "mysql": "^2.17.1"
+  }
+}
