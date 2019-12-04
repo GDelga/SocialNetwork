@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="shortcut icon" href="html/imagenes/FaceToFace.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <title>Face To Face</title>
+</head>
+
+<body>
+    <header>
+        <div class="divHeader">
+            <div class="divLogoTitulo">
+                <div class="divTitulo">
+                    <div class="faceToFaceLogo">
+                        <img src="html/imagenes/logo.png" alt="">
+                    </div>
+                    <div>
+                        <h1>Face To Face</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divMenu">
+            <div class="seleccionado">
+                <a href="iniciarSesion.html">Iniciar Sesión</a>
+            </div>
+            <div class="seleccionado">
+                <a href="registrarse.html">Registrarse</a>
+            </div>
+
+        </div>
+    </header>
+    <main>
+        <div class="divMain">
+            <div>
+                <h2>Iniciar Sesión</h2>
+            </div>
+            <div class="contenedorLogin">
+                <form class="formInicioSesion" action="/login" method="POST">
+                    <div>Email:</div>
+                    <div><input type="text" name="correo"></div>
+                    <div>Contraseña:</div>
+                    <div><input type="text" name="pasw"></div>
+                    <div class="center gridColumnInicio"><button class="boton seleccionado" type="submit">Iniciar Sesión</button></div>
+                </form>
+                <div class="center">
+                    <%if(!datos.correct) {%>
+                       <%=datos.errorMsg %>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

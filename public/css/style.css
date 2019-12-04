@@ -61,7 +61,7 @@ h1 {
 }
 
 html, body {
-    background-image: url(imagenes/fondo2.jpg);
+    background-image: url(../html/imagenes/fondo2.jpg);
     width: 100%;
     height: 100%;
 }
@@ -99,8 +99,13 @@ a {
     display: grid;
     grid-template-columns: 1fr 2fr;
     grid-template-rows: auto auto;
-    margin-left: 20%;
+    margin-left: 20px;
+    margin-right: 20px;
     grid-row-gap: 5px;
+}
+
+.gridColumnInicio {
+    grid-column: 1 / 3;
 }
 
 .formRegistro {
@@ -122,10 +127,11 @@ a {
     padding-right: 15px;
     cursor: pointer;
     color:white;
+    font-size: 1.2em;
 }
 
 .formInicioSesion input{
-    width: 60%;
+    width: 100%;
     font-size: 0.8em;
     padding: 4px;
     border-radius: 3px;
@@ -149,7 +155,7 @@ a {
     background-image: linear-gradient(lightgray, gray, lightgray);
 }
 
-.seleccionado:hover {
+.formInicioSesion .seleccionado:hover {
     background-image: linear-gradient(rgb(252, 190, 77), rgb(255, 54, 27), rgb(255, 201, 119));
 }
 
