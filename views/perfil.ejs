@@ -38,7 +38,7 @@
             </div>
             <div class="divPerfil">
                 <div class="divFotoPerfil"><img src="imagenes/perfil.png" alt=""></div>
-                <div class="divDatos">50 pts</div>
+                <div class="divDatos"><%=datos.usuario.PUNTOS + " puntos"%></div>
             </div>
 
         </div>
@@ -55,10 +55,10 @@
                     </div>
                     <div class="info">
                         <ul>
-                            <li>Casper Maria Rodriguez</li>
-                            <li>33 años</li>
-                            <li>Otro</li>
-                            <li>50 puntos</li>
+                            <li><%=datos.usuario.NOMBRE%></li>
+                            <li><%=datos.edad + " años"%></li>
+                            <li><%=datos.usuario.GENERO%></li>
+                            <li><%=datos.usuario.PUNTOS + " puntos"%></li>
                         </ul>
                     </div>
                 </div>

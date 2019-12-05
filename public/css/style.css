@@ -219,7 +219,7 @@ a {
     background-image: linear-gradient(rgb(125, 89, 156), rgb(51, 1, 92), rgb(122, 89, 148));
 }
 
-.contenedorPerfil a {
+.contenedorPerfil button, .contenedorPerfil a, .colorPerfil button  {
     font-size: 1.3em;
     background-color: rgb(85, 59, 107);
     border-color: rgb(51, 1, 92);
@@ -511,4 +511,13 @@ h3{
 
 .colorVerde{
     color:green;
+}
+
+
+.colorPerfil{
+    background-color: rgb(202, 155, 255);
+}
+
+.colorBlock{
+    background-color: rgb(94, 48, 146)
 }

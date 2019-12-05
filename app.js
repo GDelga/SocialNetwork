@@ -24,7 +24,9 @@ const daoUsuarios = new DAOUsuarios(pool);
 var user = "AntMan@gmail.es"
 
 // Se incluye el middleware body-parser en la cadena de middleware
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 
 const ficheroEstatico = path.join(__dirname, "public");
@@ -42,24 +44,38 @@ app.set("views", path.join(__dirname, "views"));
 
 
 app.get("/perfil", function (request, response) {
-    daoUsuarios.verUsuario(request.session.currentUser, function cb_verUsuario(err, result) {
-        if (err) {
-            console.log(err.message);
-        }
-        else {
-            console.log(result);
-            response.render("perfil", { datos: { usuario: result} });
-        }
-    });
-
+    if (request.session.currentUser != undefined) {
+        daoUsuarios.verUsuario(request.session.currentUser, function cb_verUsuario(err, result) {
+            if (err) {
+                console.log(err.message);
+            } else {
+                console.log(result);
+                var diff = (new Date().getTime() - result[0].NACIMIENTO.getTime()) / 1000;
+                diff /= (60 * 60 * 24);
+                diff = Math.abs(Math.round(diff / 365.25));
+                response.render("perfil", {
+                    datos: {
+                        usuario: result[0],
+                        edad: diff
+                    }
+                });
+            }
+        });
+    }
+    else {
+        response.render("login", {
+            datos: {
+                correct: true
+            }
+        });
+    }
 });
 
 app.get("/finish/:taskId", function (request, response) {
     daoT.markTaskDone(request.params.taskId, function cb_onlyError(err) {
         if (err) {
             console.log(err.message);
-        }
-        else response.redirect("/task");
+        } else response.redirect("/task");
     })
 })
 
@@ -67,8 +83,7 @@ app.get("/deleteCompleted", function (request, response) {
     daoT.deleteCompleted(user, function cb_onlyError(err) {
         if (err) {
             console.log(err.message);
-        }
-        else response.redirect("/task");
+        } else response.redirect("/task");
     })
 })
 
@@ -78,30 +93,37 @@ app.post("/addTask", function (request, response) {
     daoT.insertTask(user, task, function cb_onlyError(err) {
         if (err) {
             console.log(err.message);
-        }
-        else response.redirect("/task");
+        } else response.redirect("/task");
     })
 })
 app.get("/login", function (request, response) {
-    response.render("login", {datos: {correct: true}});
+    response.render("login", {
+        datos: {
+            correct: true
+        }
+    });
 });
 
 app.post("/login", function (request, response) {
 
     daoUsuarios.isUserCorrect(request.body.correo,
-        request.body.pasw, function (error, ok) {
+        request.body.pasw,
+        function (error, ok) {
             console.log(error)
             if (error) { // error de acceso a la base de datos
                 response.status(500);
                 console.log("Erros en la base datos")
-            }
-            else if (ok) {
+            } else if (ok) {
                 request.session.currentUser = request.body.correo;
                 response.redirect("/perfil");
             } else {
                 response.status(200);
-                response.render("login",
-                    {datos: { correct:false, errorMsg: " Usuario y/o contraseña erroneos" }});
+                response.render("login", {
+                    datos: {
+                        correct: false,
+                        errorMsg: " Usuario y/o contraseña erroneos"
+                    }
+                });
             }
         });
 });
@@ -110,8 +132,7 @@ app.post("/login", function (request, response) {
 app.listen(config.port, function (err) {
     if (err) {
         console.log("ERROR al iniciar el servidor");
-    }
-    else {
+    } else {
         console.log(`Servidor arrancado en el puerto ${config.port}`);
     }
 });
