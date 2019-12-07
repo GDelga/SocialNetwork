@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="shortcut icon" href="../html/imagenes/FaceToFace.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="html/imagenes/FaceToFace.jpg" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <title>Face To Face</title>
 </head>
@@ -15,7 +15,7 @@
             <div class="divLogoTitulo">
                 <div class="divTitulo">
                     <div class="faceToFaceLogo">
-                        <img src="../html/imagenes/logo.png" alt="">
+                        <img src="html/imagenes/logo.png" alt="">
                     </div>
                     <div>
                         <h1>Face To Face</h1>
@@ -45,16 +45,16 @@
     <main>
         <div class="divMain">
             <div>
-                <h2>Modificar perfil</h2>
+                <h2>Modificar Perfil</h2>
             </div>
             <div class="contenedorLogin colorPerfil">
-                <form class="formRegistro" action="/modificar" method="post" enctype="multipart/form-data">
+                <form class="formModificar" action="/modificar" method="post" enctype="multipart/form-data">
                     <div><label>Email:</label></div>
-                    <div><input type="text" readonly name="email" class="colorBlock" value="<%=datos.usuario.CORREO %>"></div>
+                    <div><input type="text" name="correo" class="colorBlock" value="<%=datos.usuario.CORREO %>"></div>
                     <div><label>Nombre completo:</label></div>
                     <div><input type="text" name="nombre" value="<%=datos.usuario.NOMBRE %>"></div>
                     <div><label>Género:</label></div>
-                    <div class=divRadio>       
+                    <div class=divRadio>
                         <%if(datos.usuario.GENERO == "Masculino"){%>
                             <input type="radio" name="genero" value="Masculino" checked>Masculino
                         <%} else {%>

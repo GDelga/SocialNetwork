@@ -221,7 +221,7 @@ app.get("/modificar", function (request, response) {
             } else {
                 console.log(result);
                 let nacimiento = result[0].NACIMIENTO;
-                let fecha = null;
+                let fecha = "";
                 if (nacimiento) {
                     fecha = nacimiento.getFullYear() + "-" +
                         (nacimiento.getMonth() <= 9 ? "0" + nacimiento.getMonth() : nacimiento.getMonth()) + "-" +
@@ -247,24 +247,28 @@ app.get("/modificar", function (request, response) {
     }
 });
 
-app.post("/modificar", function (request, response) {
+app.post("/modificar", multerFactory.single("foto"), function (request, response) {
+    console.log(request.body);
     if (request.session.currentUser != undefined) {
-        console.log(request.body);
         let foto = null,
             errores = false;
         if (request.file) {
             foto = request.file.filename;
-        } else foto = request.session.foto;
+        }
+        else foto = request.session.foto;
         if (request.body.fecha == "") {
             request.body.fecha = null;
         }
-        if (!/^(.*[^\s]+.*)$/.test(request.body.nombre) && !errores) {
+        if (!/^(.*[^\s]+.*)$/.test(request.body.nombre)) {
             let user = {
-                CORREO: request.session.currentUser,
                 GENERO: request.body.genero,
-                NOMBRE: request.body.nombre
+                NOMBRE: request.body.NOMBRE,
+                CORREO: request.body.email
             }
-            response.render("modificar", {
+            if (request.body.fecha == null) {
+                request.body.fecha = "";
+            }
+            response.render("registro", {
                 datos: {
                     error: true,
                     mensaje: "El nombre es obligatorio",
@@ -279,14 +283,17 @@ app.post("/modificar", function (request, response) {
         if ((request.body.genero != "Masculino" && request.body.genero != "Femenino" &&
                 request.body.genero != "Otro") && !errores) {
             let user = {
-                CORREO: request.session.currentUser,
                 GENERO: request.body.genero,
-                NOMBRE: request.body.nombre
+                NOMBRE: request.body.NOMBRE,
+                CORREO: request.body.email
             }
-            response.render("modificar", {
+            if (request.body.fecha == null) {
+                request.body.fecha = "";
+            }
+            response.render("registro", {
                 datos: {
                     error: true,
-                    mensaje: "El género es obligatorio",
+                    mensaje: "El genero es obligatorio",
                     usuario: user,
                     fecha: request.body.fecha,
                     puntos: request.session.puntos,
@@ -297,7 +304,7 @@ app.post("/modificar", function (request, response) {
         }
         if (!errores) {
             let user = {
-                email: request.session.currentUser,
+                email: request.body.correo,
                 nombre: request.body.nombre,
                 genero: request.body.genero,
                 foto: foto,
@@ -321,7 +328,6 @@ app.post("/modificar", function (request, response) {
         });
     }
 });
-
 
 app.get("/perfil", function (request, response) {
     if (request.session.currentUser != undefined) {
