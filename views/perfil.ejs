@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <title>Face To Face</title>
 </head>
-
 <body>
     <header>
         <div class="divHeader">
@@ -34,10 +33,10 @@
                 <a href="preguntas.html">Preguntas</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="iniciarSesion.html">Desconectarse</a>
+                <a href="/logout">Desconectarse</a>
             </div>
             <div class="divPerfil">
-                <div class="divFotoPerfil"><img src="imagenes/perfil.png" alt=""></div>
+                <div class="divFotoPerfil"><img src="/imagenUsuario/<%=datos.foto%>" alt=""></div>
                 <div class="divDatos"><%=datos.puntos + " puntos"%></div>
             </div>
 
@@ -51,12 +50,14 @@
             <div class="contenedorPerfil">
                 <div class="divDatosPerfil">
                     <div>
-                        <img src="imagenes/perfil.png" alt="">
+                        <img src="/imagenUsuario/<%=datos.foto%>" alt="">
                     </div>
                     <div class="info">
                         <ul>
                             <li><%=datos.usuario.NOMBRE%></li>
-                            <li><%=datos.edad + " años"%></li>
+                            <%if(datos.edad != null) {%>
+                                <li><%=datos.edad + " años"%></li>
+                            <%}%>
                             <li><%=datos.usuario.GENERO%></li>
                             <li><%=datos.puntos + " puntos"%></li>
                         </ul>

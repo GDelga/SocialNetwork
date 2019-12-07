@@ -34,10 +34,10 @@
                 <a href="preguntas.html">Preguntas</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="iniciarSesion.html">Desconectarse</a>
+                <a href="/logout">Desconectarse</a>
             </div>
             <div class="divPerfil">
-                <div class="divFotoPerfil"><img src="imagenes/perfil.png" alt=""></div>
+                <div class="divFotoPerfil"><img src="/imagenUsuario/<%=datos.foto%>" alt=""></div>
                 <div class="divDatos"><%=datos.puntos + " puntos"%></div>
             </div>
 
@@ -54,7 +54,7 @@
                         <div class="divPerfilEncontrado">
                             <div><%= perfil.NOMBRE %></div>
                             <div>
-                                <img class="imgPerfilBusqueda" src="imagenes/avatar1.png" alt="">
+                                <img class="imgPerfilBusqueda" src="/imagenUsuario/<%=perfil.FOTO %>" alt="">
                             </div>
                             <div>
                                 <a href="/solicitar/<%= perfil.CORREO%>" class="boton seleccionado">Solicitar amistad</a>

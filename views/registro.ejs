@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="shortcut icon" href="html/imagenes/FaceToFace.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <title>Face To Face</title>
+</head>
+
+<body>
+    <header>
+        <div class="divHeader">
+            <div class="divLogoTitulo">
+                <div class="divTitulo">
+                    <div class="faceToFaceLogo">
+                        <img src="html/imagenes/logo.png" alt="">
+                    </div>
+                    <div>
+                        <h1>Face To Face</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divMenu">
+            <div class="seleccionado">
+                <a href="/login">Iniciar Sesión</a>
+            </div>
+            <div class="seleccionado">
+                <a href="/registro">Registrarse</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="divMain">
+            <div>
+                <h2>Registrarse</h2>
+            </div>
+            <div class="contenedorLogin">
+                <form class="formRegistro" action="/registro" method="post" enctype="multipart/form-data">
+                    <div><label>Email:</label></div>
+                    <div><input type="text" name="correo"></div>
+                    <div><label>Contraseña:</label></div>
+                    <div><input type="text" name="contrasena"></div>
+                    <div><label>Nombre completo:</label></div>
+                    <div><input type="text" name="nombre"></div>
+                    <div><label>Género:</label></div>
+                    <div class=divRadio>
+                        <input type="radio" name="genero" value="Masculino"> Masculino
+                        <input type="radio" name="genero" value="Femenino"> Femenino
+                        <input type="radio" name="genero" value="Otro"> Otro
+                    </div>
+                    <div><label>Fecha de nacimiento:</label></div>
+                    <div><input type="date" name="fecha" value=""></div>
+                    <div><label>Imagen de perfil:</label></div>
+                    <div><input type="file" value="image/*" name="foto"></div>
+                    <div class="center gridColumnInicio"><button class="boton seleccionado" type="submit">Registrarse</button></div>
+                </form>
+                <%if(datos.error) {%>
+                    <div class="center">
+                        <%=datos.mensaje %>   
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

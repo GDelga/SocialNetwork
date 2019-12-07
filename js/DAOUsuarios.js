@@ -13,10 +13,10 @@ class DAOUsuarios {
                     "VALUES (?, ?, ?, ?, ?, ?)",
                     [user.email, user.contrasena, user.nombre, user.genero, user.nacimiento, user.foto],
                     function (err, result) {
+                        connection.release();
                         if (err) {
                             callback(new Error("Error de acceso a la base de datos"));
                         } else {
-                            connection.release();
                             callback(null);
                         }
                     }
@@ -31,14 +31,14 @@ class DAOUsuarios {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
                 connection.query(
-                    "INSERT USUARIOS SET CONTRASENA=?, NOMBRE=?, GENERO=?, NACIMIENTO=?, FOTO=?" +
-                    "WHERE CORREO=?",
-                    [user.contrasena, user.nombre, user.genero, user.nacimiento, user.foto, user.email],
+                    "UPDATE USUARIOS SET NOMBRE=?, GENERO=?, NACIMIENTO=?, FOTO=?" +
+                    " WHERE CORREO=?",
+                    [user.nombre, user.genero, user.nacimiento, user.foto, user.email],
                     function (err, result) {
+                        connection.release();
                         if (err) {
                             callback(new Error("Error de acceso a la base de datos"));
                         } else {
-                            connection.release();
                             callback(null);
                         }
                     }
@@ -56,10 +56,10 @@ class DAOUsuarios {
                     "SELECT * FROM USUARIOS WHERE CORREO=?",
                     [email],
                     function (err, result) {
+                        connection.release();
                         if (err) {
                             callback(new Error("Error de acceso a la base de datos"));
                         } else {
-                            connection.release();
                             callback(null, result);
                         }
                     }
@@ -78,18 +78,20 @@ class DAOUsuarios {
                     [email],
                     function (err, result) {
                         if (err) {
+                            connection.release();
                             callback(new Error("Error de acceso a la base de datos"));
                         } else {
                             if (result.length >= 1) {
                                 var res = "("
                                 for (let i in result) {
-                                    res += result[i].ID_AMIGO;
+                                    res += "\'" + result[i].ID_AMIGO + "\'";
                                     if (i != result.length - 1) res += ",";
                                     else res += ")"
                                 }
                                 connection.query(
-                                    "SELECT NOMBRE, FOTO FROM USUARIOS WHERE ID IN " + res,
-                                    function (err) {
+                                    "SELECT CORREO, NOMBRE, FOTO FROM USUARIOS WHERE CORREO IN " + res,
+                                    function (err, result) {
+                                        connection.release();
                                         if (err) {
                                             callback(new Error("Error de acceso a la base de datos"));
                                         } else {
@@ -98,6 +100,7 @@ class DAOUsuarios {
                                     }
                                 )
                             } else {
+                                connection.release();
                                 callback(null, null);
                             }
                         }
@@ -117,18 +120,20 @@ class DAOUsuarios {
                     [email],
                     function (err, result) {
                         if (err) {
+                            connection.release();
                             callback(new Error("Error de acceso a la base de datos"));
                         } else {
                             if (result.length >= 1) {
                                 var res = "("
                                 for (let i in result) {
-                                    res += result[i].ID_AMIGO;
+                                    res += "\'" + result[i].ID_AMIGO + "\'";
                                     if (i != result.length - 1) res += ",";
                                     else res += ")"
                                 }
                                 connection.query(
-                                    "SELECT NOMBRE, FOTO FROM USUARIOS WHERE ID IN " + res,
-                                    function (err) {
+                                    "SELECT CORREO, NOMBRE, FOTO FROM USUARIOS WHERE CORREO IN " + res,
+                                    function (err, result) {
+                                        connection.release();
                                         if (err) {
                                             callback(new Error("Error de acceso a la base de datos"));
                                         } else {
@@ -137,6 +142,7 @@ class DAOUsuarios {
                                     }
                                 )
                             } else {
+                                connection.release();
                                 callback(null, null);
                             }
                         }
@@ -156,9 +162,10 @@ class DAOUsuarios {
                     "(SELECT ID_USUARIO FROM AMIGOS WHERE ID_USUARIO=? OR ID_AMIGO=?)" +
                     "AND USUARIOS.CORREO NOT IN" +
                     "(SELECT ID_AMIGO FROM AMIGOS WHERE ID_USUARIO=? OR ID_AMIGO=?)" +
-                    "AND USUARIOS.NOMBRE LIKE \'%" + nombre + "%\'",
-                    [email, email, email, email],
+                    "AND USUARIOS.NOMBRE LIKE \'%" + nombre + "%\' AND CORREO !=?",
+                    [email, email, email, email, email],
                     function (err, result) {
+                        connection.release();
                         if (err) {
                             callback(new Error("Error de acceso a la base de datos"));
                         } else {
@@ -196,12 +203,82 @@ class DAOUsuarios {
         })
     }
 
-    aceptarPeticion(email, peticion) {
-
+    aceptarPeticion(email, peticion, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"))
+            } else {
+                connection.query(
+                    "UPDATE AMIGOS SET ESTADO=?" +
+                    "WHERE ID_USUARIO=? AND ID_AMIGO=?",
+                    ["ACEPTADO", email, peticion],
+                    function (err, result) {
+                        if (err) {
+                            connection.release();
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            connection.query(
+                                "INSERT INTO AMIGOS (ID_USUARIO, ID_AMIGO, ESTADO) " +
+                                "VALUES (?, ?, ?)",
+                                [peticion, email, "ACEPTADO"],
+                                function (err, result) {
+                                    connection.release();
+                                    if (err) {
+                                        callback(new Error("Error de acceso a la base de datos"));
+                                    } else {
+                                        callback(null);
+                                    }
+                                }
+                            )
+                        }
+                    }
+                )
+            }
+        })
     }
 
-    rechazarPeticion(email, peticion) {
+    rechazarPeticion(email, peticion, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"))
+            } else {
+                connection.query(
+                    "DELETE FROM AMIGOS" +
+                    " WHERE ID_USUARIO =? AND ID_AMIGO=?",
+                    [email, peticion],
+                    function (err, result) {
+                        connection.release();
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            callback(null);
+                        }
+                    }
+                )
+            }
+        })
+    }
 
+    mandarPeticion(email, peticion, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"))
+            } else {
+                connection.query(
+                    "INSERT INTO AMIGOS (ID_USUARIO, ID_AMIGO, ESTADO) " +
+                    "VALUES (?, ?, ?)",
+                    [peticion, email, "PETICION"],
+                    function (err, result) {
+                        connection.release();
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            callback(null);
+                        }
+                    }
+                )
+            }
+        })
     }
 }
 

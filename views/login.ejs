@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -25,12 +25,11 @@
         </div>
         <div class="divMenu">
             <div class="seleccionado">
-                <a href="iniciarSesion.html">Iniciar Sesión</a>
+                <a href="/login">Iniciar Sesión</a>
             </div>
             <div class="seleccionado">
-                <a href="registrarse.html">Registrarse</a>
+                <a href="/registro">Registrarse</a>
             </div>
-
         </div>
     </header>
     <main>
@@ -44,13 +43,14 @@
                     <div><input type="text" name="correo"></div>
                     <div>Contraseña:</div>
                     <div><input type="text" name="pasw"></div>
-                    <div class="center gridColumnInicio"><button class="boton seleccionado" type="submit">Iniciar Sesión</button></div>
+                    <div class="center gridColumnInicio"><button class="boton seleccionado" type="submit">Iniciar
+                            Sesión</button></div>
                 </form>
-                <div class="center">
-                    <%if(!datos.correct) {%>
-                       <%=datos.errorMsg %>
-                    <% } %>
-                </div>
+                <%if(!datos.correct) {%>
+                    <div class="center">
+                        <%=datos.errorMsg %>   
+                    </div>
+                <% } %>
             </div>
         </div>
     </main>

@@ -34,13 +34,12 @@
                 <a href="preguntas.html">Preguntas</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="iniciarSesion.html">Desconectarse</a>
+                <a href="/logout">Desconectarse</a>
             </div>
             <div class="divPerfil">
-                <div class="divFotoPerfil"><img src="imagenes/perfil.png" alt=""></div>
+                <div class="divFotoPerfil"><img src="/imagenUsuario/<%=datos.foto%>" alt=""></div>
                 <div class="divDatos"><%=datos.puntos + " puntos"%></div>
             </div>
-
         </div>
     </header>
     <main>
@@ -54,14 +53,14 @@
                     <% datos.peticiones.forEach(peticion => { %>
                         <div class="divirEnDos">
                             <div class="divImagenAmistad">
-                                <img src="imagenes/user1.png" alt="">
+                                <img src="/imagenUsuario/<%=peticion.FOTO%>" alt="">
                             </div>
                             <div class="contenidoSolicitudAmistad">
-                                <label class="tamLabel"><%=peticion.NOMBRE%>></label>
+                                <label class="tamLabel"><%=peticion.NOMBRE%></label>
                                 <label>¡Quiero ser tu amig@!</label>
                                 <div class="divBotones">
-                                    <a>Aceptar</a>
-                                    <a>Rechazar</a>
+                                    <a href="/aceptar/<%= peticion.CORREO%>">Aceptar</a>
+                                    <a href="/rechazar/<%= peticion.CORREO%>">Rechazar</a>
                                 </div>
                             </div>
                         </div>
@@ -87,7 +86,7 @@
                     <div class="divResultadoBusqueda">
                     <% datos.amigos.forEach(amigo => { %>
                         <div class="divPerfilEncontrado fondoAzul">
-                            <img class="imgPerfilBusqueda" src="imagenes/nuevoAmigx1.png" alt="">
+                            <img class="imgPerfilBusqueda" src="/imagenUsuario/<%=amigo.FOTO%>" alt="">
                             <div><%=amigo.NOMBRE%></div>
                         </div>
                     <%})%>

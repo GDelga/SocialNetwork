@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -34,13 +34,12 @@
                 <a href="preguntas.html">Preguntas</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="iniciarSesion.html">Desconectarse</a>
+                <a href="/logout">Desconectarse</a>
             </div>
             <div class="divPerfil">
-                <div class="divFotoPerfil"><img src="imagenes/perfil.png" alt=""></div>
+                <div class="divFotoPerfil"><img src="/imagenUsuario/<%=datos.foto%>" alt=""></div>
                 <div class="divDatos"><%=datos.puntos + " puntos"%></div>
             </div>
-
         </div>
     </header>
     <main>
@@ -49,11 +48,11 @@
                 <h2>Modificar perfil</h2>
             </div>
             <div class="contenedorLogin colorPerfil">
-                <form class="formRegistro" action="/modificar" method="post">
+                <form class="formRegistro" action="/modificar" method="post" enctype="multipart/form-data">
                     <div><label>Email:</label></div>
                     <div><input type="text" readonly name="email" class="colorBlock" value="<%=datos.usuario.CORREO %>"></div>
                     <div><label>Nombre completo:</label></div>
-                    <div><input type="text" name="nomCom" value="<%=datos.usuario.NOMBRE %>"></div>
+                    <div><input type="text" name="nombre" value="<%=datos.usuario.NOMBRE %>"></div>
                     <div><label>Género:</label></div>
                     <div class=divRadio>       
                         <%if(datos.usuario.GENERO == "Masculino"){%>
@@ -75,9 +74,14 @@
                     <div><label>Fecha de nacimiento:</label></div>
                     <div><input type="date" name="fecha" value="<%=datos.fecha %>"></div>
                     <div><label>Imagen de perfil:</label></div>
-                    <div><input type="file" value="image/*" name="archivo"></div>
-                    <div class="center gridColumnInicio"><button class="boton seleccionado">Modificar</button></div>
+                    <div><input type="file" value="image/*" name="foto"></div>
+                    <div class="center gridColumnInicio"><button class="boton seleccionado" type="submit">Modificar</button></div>
                 </form>
+                <%if(datos.error) {%>
+                    <div class="center">
+                        <%=datos.mensaje %>   
+                    </div>
+                <% } %>
             </div>
         </div>
     </main>
