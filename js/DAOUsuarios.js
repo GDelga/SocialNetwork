@@ -146,17 +146,17 @@ class DAOUsuarios {
         })
     }
 
-    buscarUsuarios(email, callback) {
+    buscarUsuarios(email, nombre, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
                 connection.query(
-                    "SELECT DISTINCT NOMBRE, FOTO FROM USUARIOS WHERE USUARIOS.CORREO NOT IN" +
+                    "SELECT DISTINCT CORREO, NOMBRE, FOTO FROM USUARIOS WHERE USUARIOS.CORREO NOT IN" +
                     "(SELECT ID_USUARIO FROM AMIGOS WHERE ID_USUARIO=? OR ID_AMIGO=?)" +
                     "AND USUARIOS.CORREO NOT IN" +
                     "(SELECT ID_AMIGO FROM AMIGOS WHERE ID_USUARIO=? OR ID_AMIGO=?)" +
-                    "AND USUARIOS.NOMBRE LIKE '%e%'",
+                    "AND USUARIOS.NOMBRE LIKE \'%" + nombre + "%\'",
                     [email, email, email, email],
                     function (err, result) {
                         if (err) {
@@ -194,6 +194,14 @@ class DAOUsuarios {
                 )
             }
         })
+    }
+
+    aceptarPeticion(email, peticion) {
+
+    }
+
+    rechazarPeticion(email, peticion) {
+
     }
 }
 

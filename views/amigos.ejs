@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="shortcut icon" href="html/imagenes/FaceToFace.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <title>Face To Face</title>
+</head>
+
+<body>
+    <header>
+        <div class="divHeader">
+            <div class="divLogoTitulo">
+                <div class="divTitulo">
+                    <div class="faceToFaceLogo">
+                        <img src="html/imagenes/logo.png" alt="">
+                    </div>
+                    <div>
+                        <h1>Face To Face</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divMenuPerfil">
+            <div class="seleccionado divPerfil">
+                <a href="/perfil">Perfil</a>
+            </div>
+            <div class="seleccionado divPerfil">
+                <a href="/amigos">Amigos</a>
+            </div>
+            <div class="seleccionado divPerfil">
+                <a href="preguntas.html">Preguntas</a>
+            </div>
+            <div class="seleccionado divPerfil">
+                <a href="iniciarSesion.html">Desconectarse</a>
+            </div>
+            <div class="divPerfil">
+                <div class="divFotoPerfil"><img src="imagenes/perfil.png" alt=""></div>
+                <div class="divDatos"><%=datos.puntos + " puntos"%></div>
+            </div>
+
+        </div>
+    </header>
+    <main>
+        <div class="divMain">
+            <div>
+                <h2>Solicitudes de Amistad</h2>
+            </div>
+
+            <div class="contenidoSolicitudAmistad">
+                <%if(datos.peticiones) { %>
+                    <% datos.peticiones.forEach(peticion => { %>
+                        <div class="divirEnDos">
+                            <div class="divImagenAmistad">
+                                <img src="imagenes/user1.png" alt="">
+                            </div>
+                            <div class="contenidoSolicitudAmistad">
+                                <label class="tamLabel"><%=peticion.NOMBRE%>></label>
+                                <label>¡Quiero ser tu amig@!</label>
+                                <div class="divBotones">
+                                    <a>Aceptar</a>
+                                    <a>Rechazar</a>
+                                </div>
+                            </div>
+                        </div>
+                    <%})%>
+                <%} else {%>
+                    <div class="divBuscarAmigo">No tienes peticiones de amistad</div>
+                <%}%>
+            </div>
+            <div>
+                <h2>Busqueda de amig@s</h2>
+                <div>
+                    <form action="/buscar" method="post" class="divBuscarAmigo">
+                        <div><label>Buscar por nombre:</label></div>
+                        <div><input type="text" name="nombre"></div>
+                        <div><button type="submit">Buscar</button></div>
+                    </form>
+                </div>
+            </div>
+
+            <div>
+                <h2>Mis amig@s</h2>
+                <%if(datos.amigos) {%>
+                    <div class="divResultadoBusqueda">
+                    <% datos.amigos.forEach(amigo => { %>
+                        <div class="divPerfilEncontrado fondoAzul">
+                            <img class="imgPerfilBusqueda" src="imagenes/nuevoAmigx1.png" alt="">
+                            <div><%=amigo.NOMBRE%></div>
+                        </div>
+                    <%})%>
+                    </div>
+                <%} else {%>
+                    <div class="divBuscarAmigo">En este momento no tienes amig@s, ¡utiliza el buscador para encontrar gente!</div>
+                <%}%>
+            </div>
+        </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

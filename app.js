@@ -42,6 +42,128 @@ app.use(middlewareSession);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.get("/amigos", function (request, response) {
+    if (request.session.currentUser != undefined) {
+        daoUsuarios.listarPeticiones(request.session.currentUser, function cb_listarPeticiones(err, result) {
+            if (err) {
+                console.log(err.message);
+            } else {
+                let peticiones = result;
+                daoUsuarios.listarAmigos(request.session.currentUser, function cb_listarAmigos(err, result) {
+                    if (err) {
+                        console.log(err.message);
+                    } else {
+                        let amigos = result;
+                        response.render("amigos", {
+                            datos: {
+                                puntos: request.session.puntos,
+                                foto: request.session.foto,
+                                peticiones: peticiones,
+                                amigos: amigos
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+    else {
+        response.render("login", {
+            datos: {
+                correct: true
+            }
+        });
+    }
+});
+
+app.post("/buscar", function (request, response) {
+    if (request.session.currentUser != undefined) {
+        daoUsuarios.buscarUsuarios(request.session.currentUser, request.body.nombre, function cb_buscarUsuarios(err, result) {
+            if (err) {
+                console.log(err.message);
+            } else {
+                console.log(result);
+                response.render("resultadoBusqueda", {
+                    datos: {
+                        puntos: request.session.puntos,
+                        foto: request.session.foto,
+                        busqueda: result
+                    }
+                });
+            }
+        });
+    }
+    else {
+        response.render("login", {
+            datos: {
+                correct: true
+            }
+        });
+    }
+});
+
+app.get("/modificar", function (request, response) {
+    if (request.session.currentUser != undefined) {
+        daoUsuarios.verUsuario(request.session.currentUser, function cb_verUsuario(err, result) {
+            if (err) {
+                console.log(err.message);
+            } else {
+                console.log(result);
+                let nacimiento = result[0].NACIMIENTO;
+                let fecha = nacimiento.getFullYear() + "-" 
+                    + (nacimiento.getMonth() <= 9 ? "0" + nacimiento.getMonth() : nacimiento.getMonth()) + "-"
+                    + (nacimiento.getDate() <= 9 ? "0" + nacimiento.getDate() : nacimiento.getDate())
+                response.render("modificar", {
+                    datos: {
+                        usuario: result[0],
+                        fecha: fecha,
+                        puntos: request.session.puntos,
+                        foto: request.session.foto
+                    }
+                });
+            }
+        });
+    }
+    else {
+        response.render("login", {
+            datos: {
+                correct: true
+            }
+        });
+    }
+});
+
+app.post("/modificar", function (request, response) {
+    if (request.session.currentUser != undefined) {
+        daoUsuarios.verUsuario(request.session.currentUser, function cb_verUsuario(err, result) {
+            if (err) {
+                console.log(err.message);
+            } else {
+                console.log(result);
+                let nacimiento = result[0].NACIMIENTO;
+                let fecha = nacimiento.getFullYear() + "-" 
+                    + (nacimiento.getMonth() <= 9 ? "0" + nacimiento.getMonth() : nacimiento.getMonth()) + "-"
+                    + (nacimiento.getDate() <= 9 ? "0" + nacimiento.getDate() : nacimiento.getDate())
+                response.render("perfil", {
+                    datos: {
+                        usuario: result[0],
+                        fecha: fecha,
+                        puntos: request.session.puntos,
+                        foto: request.session.foto
+                    }
+                });
+            }
+        });
+    }
+    else {
+        response.render("login", {
+            datos: {
+                correct: true
+            }
+        });
+    }
+});
+
 
 app.get("/perfil", function (request, response) {
     if (request.session.currentUser != undefined) {
@@ -53,10 +175,14 @@ app.get("/perfil", function (request, response) {
                 var diff = (new Date().getTime() - result[0].NACIMIENTO.getTime()) / 1000;
                 diff /= (60 * 60 * 24);
                 diff = Math.abs(Math.round(diff / 365.25));
+                request.session.foto = result[0].FOTO;
+                request.session.puntos = result[0].PUNTOS;
                 response.render("perfil", {
                     datos: {
                         usuario: result[0],
-                        edad: diff
+                        edad: diff,
+                        puntos: request.session.puntos,
+                        foto: request.session.foto
                     }
                 });
             }

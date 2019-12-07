@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="shortcut icon" href="html/imagenes/FaceToFace.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="imagenes/FaceToFace.jpg" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <title>Face To Face</title>
 </head>
@@ -15,7 +15,7 @@
             <div class="divLogoTitulo">
                 <div class="divTitulo">
                     <div class="faceToFaceLogo">
-                        <img src="html/imagenes/logo.png" alt="">
+                        <img src="imagenes/logo.png" alt="">
                     </div>
                     <div>
                         <h1>Face To Face</h1>
@@ -46,23 +46,24 @@
     <main>
         <div class="divMain">
             <div>
-                <h2>Tu perfil</h2>
+                <h2>Resultados de la búsqueda</h2>
             </div>
-            <div class="contenedorPerfil">
-                <div class="divDatosPerfil">
-                    <div>
-                        <img src="imagenes/perfil.png" alt="">
-                    </div>
-                    <div class="info">
-                        <ul>
-                            <li><%=datos.usuario.NOMBRE%></li>
-                            <li><%=datos.edad + " años"%></li>
-                            <li><%=datos.usuario.GENERO%></li>
-                            <li><%=datos.puntos + " puntos"%></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="center"><a class="boton seleccionado" href="/modificar">Modificar perfil</a></div>
+            <div class="divResultadoBusqueda">
+                <%if(datos.busqueda.length > 0) {%>
+                    <% datos.busqueda.forEach(perfil => { %>
+                        <div class="divPerfilEncontrado">
+                            <div><%= perfil.NOMBRE %></div>
+                            <div>
+                                <img class="imgPerfilBusqueda" src="imagenes/avatar1.png" alt="">
+                            </div>
+                            <div>
+                                <a href="/solicitar/<%= perfil.CORREO%>" class="boton seleccionado">Solicitar amistad</a>
+                            </div>
+                        </div>
+                    <%})%>
+                <%} else {%>
+                    <div class="divBuscarAmigo">No se han encontrado personas con ese nombre</div>
+                <%}%>
             </div>
         </div>
     </main>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="shortcut icon" href="../html/imagenes/FaceToFace.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <title>Face To Face</title>
+</head>
+
+<body>
+    <header>
+        <div class="divHeader">
+            <div class="divLogoTitulo">
+                <div class="divTitulo">
+                    <div class="faceToFaceLogo">
+                        <img src="../html/imagenes/logo.png" alt="">
+                    </div>
+                    <div>
+                        <h1>Face To Face</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divMenuPerfil">
+            <div class="seleccionado divPerfil">
+                <a href="/perfil">Perfil</a>
+            </div>
+            <div class="seleccionado divPerfil">
+                <a href="/amigos">Amigos</a>
+            </div>
+            <div class="seleccionado divPerfil">
+                <a href="preguntas.html">Preguntas</a>
+            </div>
+            <div class="seleccionado divPerfil">
+                <a href="iniciarSesion.html">Desconectarse</a>
+            </div>
+            <div class="divPerfil">
+                <div class="divFotoPerfil"><img src="imagenes/perfil.png" alt=""></div>
+                <div class="divDatos"><%=datos.puntos + " puntos"%></div>
+            </div>
+
+        </div>
+    </header>
+    <main>
+        <div class="divMain">
+            <div>
+                <h2>Modificar perfil</h2>
+            </div>
+            <div class="contenedorLogin colorPerfil">
+                <form class="formRegistro" action="/modificar" method="post">
+                    <div><label>Email:</label></div>
+                    <div><input type="text" readonly name="email" class="colorBlock" value="<%=datos.usuario.CORREO %>"></div>
+                    <div><label>Nombre completo:</label></div>
+                    <div><input type="text" name="nomCom" value="<%=datos.usuario.NOMBRE %>"></div>
+                    <div><label>Género:</label></div>
+                    <div class=divRadio>       
+                        <%if(datos.usuario.GENERO == "Masculino"){%>
+                            <input type="radio" name="genero" value="Masculino" checked>Masculino
+                        <%} else {%>
+                            <input type="radio" name="genero" value="Masculino">Masculino
+                        <% }%>
+                        <%if(datos.usuario.GENERO == "Femenino"){%>
+                            <input type="radio" name="genero" value="Femenino" checked>Femenino
+                        <%} else {%>
+                            <input type="radio" name="genero" value="Femenino">Femenino
+                        <% }%>
+                        <%if(datos.usuario.GENERO == "Otro"){%>
+                            <input type="radio" name="genero" value="Otro" checked>Otro
+                        <%} else {%>
+                            <input type="radio" name="genero" value="Otro">Otro
+                        <% }%>
+                    </div>
+                    <div><label>Fecha de nacimiento:</label></div>
+                    <div><input type="date" name="fecha" value="<%=datos.fecha %>"></div>
+                    <div><label>Imagen de perfil:</label></div>
+                    <div><input type="file" value="image/*" name="archivo"></div>
+                    <div class="center gridColumnInicio"><button class="boton seleccionado">Modificar</button></div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>
