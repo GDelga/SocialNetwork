@@ -110,7 +110,8 @@ class DAOPreguntas {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
                 connection.query(
-                    "SELECT ID_RESPUESTA FROM RESPONDER WHERE ID_USUARIO = ? AND ID_PREGUNTA = ?" [peticion, question],
+                    "SELECT ID_RESPUESTA FROM RESPONDER WHERE ID_USUARIO = ? AND ID_PREGUNTA = ?",
+                    [peticion, question],
                     function (err, result) {
                         if (err) {
                             connection.release();
