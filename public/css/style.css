@@ -128,7 +128,7 @@ a {
     padding-right: 15px;
     cursor: pointer;
     color: white;
-    font-size: 1.2em;
+    font-size: inherit;
 }
 
 .formInicioSesion input {
@@ -217,6 +217,7 @@ a {
     justify-content: center;
     padding: 20px;
     border-radius: 5px;
+    font-size: 1.3em;
 }
 
 .seleccionado:hover {
@@ -226,7 +227,6 @@ a {
 .contenedorPerfil button,
 .contenedorPerfil a,
 .colorPerfil button {
-    font-size: 1.3em;
     background-color: rgb(85, 59, 107);
     border-color: rgb(51, 1, 92);
 }
@@ -247,7 +247,7 @@ a {
 }
 
 li {
-    font-size: 1.7em;
+    font-size: 1.3em;
     color: black;
     list-style: none;
 
@@ -404,10 +404,20 @@ h4 {
     color: white;
 }
 
+.botonAzul {
+    border-radius: 5px;
+    white-space: nowrap;
+    border: 2px solid rgb(37, 45, 119);
+    background-color: rgb(137, 129, 184);
+    padding: 5px;
+    color: white;
+}
+
 .divBotones a:hover,
 .divBotones button:hover,
 .divBuscarAmigo a:hover,
-.divBuscarAmigo button:hover {
+.divBuscarAmigo button:hover,
+.fondoAzul a:hover{
     background-image: linear-gradient(rgb(137, 129, 184), rgb(37, 45, 119), rgb(202, 198, 219));
 }
 
@@ -446,7 +456,7 @@ h4 {
     border: 2px solid rgb(37, 45, 119);
     background-color: rgb(137, 129, 184);
     color: white;
-    padding: 2px;
+    padding: 5px;
     font-size: inherit;
 }
 
@@ -533,4 +543,16 @@ h3 {
 
 .colorBlock {
     background-color: rgb(226, 199, 255)
+}
+
+.margenAbajo {
+    margin-bottom: 10px;
+}
+
+.margenArriba {
+    margin-top: 10px;
+}
+
+.margenAbajo5 {
+    margin-bottom: 5px;
 }

@@ -48,9 +48,9 @@ app.use(middlewareSession);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+//FUNCIONALIDAD USUARIO
+
 app.get("/imagenUsuario/:imagen", function (request, response) {
-    console.log("hola" + request.params.image);
-    console.log(request.params.imagen == "");
     if (request.session.currentUser != undefined) {
         response.status(200);
         response.sendFile(path.join(__dirname, "profile_imgs", "/" + request.params.imagen));
@@ -194,7 +194,6 @@ app.post("/buscar", function (request, response) {
             if (err) {
                 console.log(err.message);
             } else {
-                console.log(result);
                 response.render("resultadoBusqueda", {
                     datos: {
                         puntos: request.session.puntos,
@@ -219,7 +218,6 @@ app.get("/modificar", function (request, response) {
             if (err) {
                 console.log(err.message);
             } else {
-                console.log(result);
                 let nacimiento = result[0].NACIMIENTO;
                 let fecha = "";
                 if (nacimiento) {
@@ -248,14 +246,12 @@ app.get("/modificar", function (request, response) {
 });
 
 app.post("/modificar", multerFactory.single("foto"), function (request, response) {
-    console.log(request.body);
     if (request.session.currentUser != undefined) {
         let foto = null,
             errores = false;
         if (request.file) {
             foto = request.file.filename;
-        }
-        else foto = request.session.foto;
+        } else foto = request.session.foto;
         if (request.body.fecha == "") {
             request.body.fecha = null;
         }
@@ -335,7 +331,6 @@ app.get("/perfil", function (request, response) {
             if (err) {
                 console.log(err.message);
             } else {
-                console.log(result);
                 let diff = null;
                 if (result[0].NACIMIENTO) {
                     diff = (new Date().getTime() - result[0].NACIMIENTO.getTime()) / 1000;
@@ -350,6 +345,38 @@ app.get("/perfil", function (request, response) {
                         edad: diff,
                         puntos: request.session.puntos,
                         foto: request.session.foto
+                    }
+                });
+            }
+        });
+    } else {
+        response.render("login", {
+            datos: {
+                correct: true
+            }
+        });
+    }
+});
+
+app.get("/usuario/:correo/:amigo", function (request, response) {
+    if (request.session.currentUser != undefined) {
+        daoUsuarios.verUsuario(request.params.correo, function cb_verUsuario(err, result) {
+            if (err) {
+                console.log(err.message);
+            } else {
+                let diff = null;
+                if (result[0].NACIMIENTO) {
+                    diff = (new Date().getTime() - result[0].NACIMIENTO.getTime()) / 1000;
+                    diff /= (60 * 60 * 24);
+                    diff = Math.abs(Math.round(diff / 365.25));
+                }
+                response.render("usuario", {
+                    datos: {
+                        usuario: result[0],
+                        edad: diff,
+                        puntos: request.session.puntos,
+                        foto: request.session.foto,
+                        amigo: request.params.amigo
                     }
                 });
             }
@@ -431,6 +458,12 @@ app.get("/logout", function (request, response) {
     });
 });
 
+//FIN FUNCIONALIDAD USUARIO
+
+//FUNCIONALIDAD PREGUNTAS
+
+//FIN FUNCIONALIDAD PREGUNTAS
+
 // Arrancar el servidor
 app.listen(config.port, function (err) {
     if (err) {
@@ -439,6 +472,7 @@ app.listen(config.port, function (err) {
         console.log(`Servidor arrancado en el puerto ${config.port}`);
     }
 });
+
 /*
 //manejo errores 404 y 500
 app.use(middlewareNotFoundError);

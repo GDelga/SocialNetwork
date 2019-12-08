@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <title>Face To Face</title>
 </head>
-
 <body>
     <header>
         <div class="divHeader">
@@ -46,26 +45,26 @@
     <main>
         <div class="divMain">
             <div>
-                <h2>Resultados de la búsqueda</h2>
+                <h2>Perfil de <%=datos.usuario.NOMBRE%></h2>
             </div>
-            <div class="divResultadoBusqueda">
-                <%if(datos.busqueda.length > 0) {%>
-                    <% datos.busqueda.forEach(perfil => { %>
-                        <div class="divPerfilEncontrado">
-                            <div><%= perfil.NOMBRE %></div>
-                            <div>
-                                <img class="imgPerfilBusqueda" src="/imagenUsuario/<%=perfil.FOTO %>" alt="">
-                            </div>
-                            <div class="margenAbajo">
-                                <a href="/usuario/<%= perfil.CORREO%>/false" class="boton seleccionado">Ver Perfil</a>
-                            </div>
-                            <div>
-                                <a href="/solicitar/<%= perfil.CORREO%>" class="boton seleccionado">Solicitar amistad</a>
-                            </div>
-                        </div>
-                    <%})%>
-                <%} else {%>
-                    <div class="divBuscarAmigo">No se han encontrado personas con ese nombre</div>
+            <div class="contenedorPerfil">
+                <div class="divDatosPerfil">
+                    <div>
+                        <img src="/imagenUsuario/<%=datos.usuario.FOTO%>" alt="">
+                    </div>
+                    <div class="info">
+                        <ul>
+                            <li><%=datos.usuario.NOMBRE%></li>
+                            <%if(datos.edad != null) {%>
+                                <li><%=datos.edad + " años"%></li>
+                            <%}%>
+                            <li><%=datos.usuario.GENERO%></li>
+                            <li><%=datos.usuario.PUNTOS + " puntos"%></li>
+                        </ul>
+                    </div>
+                </div>
+                <%if(datos.amigo == "false") { %>
+                    <div class="center"> <a href="/solicitar/<%= datos.usuario.CORREO%>" class="boton seleccionado">Solicitar amistad</a></div>
                 <%}%>
             </div>
         </div>
