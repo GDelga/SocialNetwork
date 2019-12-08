@@ -423,11 +423,9 @@ app.get("/login", function (request, response) {
 });
 
 app.post("/login", function (request, response) {
-
     daoUsuarios.isUserCorrect(request.body.correo,
         request.body.pasw,
         function (error, ok) {
-            console.log(error)
             if (error) { // error de acceso a la base de datos
                 response.status(500);
                 console.log("Erros en la base datos")
@@ -462,6 +460,142 @@ app.get("/logout", function (request, response) {
 
 //FUNCIONALIDAD PREGUNTAS
 
+app.get("/crearPregunta", function (request, response) {
+    if (request.session.currentUser != undefined) {
+        response.render("crearPregunta", {
+            datos: {
+                puntos: request.session.puntos,
+                foto: request.session.foto
+            }
+        });
+    } else {
+        response.render("login", {
+            datos: {
+                correct: true
+            }
+        });
+    }
+});
+
+app.post("/insertarRespuestas", function (request, response) {
+    if (request.session.currentUser != undefined) {
+        let errores = false;
+        if(!/^(.*[^\s]+.*)$/.test(request.body.pregunta)){
+            errores = true;
+            response.render("crearPregunta", {
+                datos: {
+                    puntos: request.session.puntos,
+                    foto: request.session.foto,
+                    correct: false,
+                    errorMsg: "La pregunta es obligatoria"
+                }
+            });
+        }
+        if(parseInt(request.body.respuestas) <= 0 && !errores) {
+            errores = true;
+            response.render("crearPregunta", {
+                datos: {
+                    pregunta: request.body.pregunta,
+                    puntos: request.session.puntos,
+                    foto: request.session.foto,
+                    correct: false,
+                    errorMsg: "Nº de respuestas no válido"
+                }
+            });
+        }
+        if(!errores) {
+            response.render("crearPregunta", {
+                datos: {
+                    respuestas: parseInt(request.body.respuestas),
+                    pregunta: request.body.pregunta,
+                    puntos: request.session.puntos,
+                    foto: request.session.foto,
+                    correct: true
+                }
+            });
+        }
+    } else {
+        response.render("login", {
+            datos: {
+                correct: true
+            }
+        });
+    }
+});
+
+app.post("/crearPregunta", function (request, response) {
+    if (request.session.currentUser != undefined) {
+        let errores = false;
+        if(!/^(.*[^\s]+.*)$/.test(request.body.pregunta)){
+            errores = true;
+            response.render("crearPregunta", {
+                datos: {
+                    respuestas: parseInt(request.body.respuestas),
+                    puntos: request.session.puntos,
+                    foto: request.session.foto,
+                    correct: false,
+                    errorMsg: "La pregunta es obligatoria"
+                }
+            });
+        }
+        for(let i in request.body.respuesta) {
+            if(!/^(.*[^\s]+.*)$/.test(i) && !errores){
+                errores = true;
+                response.render("crearPregunta", {
+                    datos: {
+                        pregunta: request.body.pregunta,
+                        respuestas: parseInt(request.body.respuestas),
+                        puntos: request.session.puntos,
+                        foto: request.session.foto,
+                        correct: false,
+                        errorMsg: "Todas las respuestas tienen que estar rellenadas"
+                    }
+                });
+            }
+        }
+        if(!errores) {
+            daoPreguntas.crearPregunta(request.session.currentUser, request.body.pregunta,
+                request.body.respuesta, function cb_buscarPreguntas(err, result) {
+                if (err) {
+                    console.log(err.message);
+                } else {
+                    response.redirect("preguntas");
+                }
+            });
+        }
+    } else {
+        response.render("login", {
+            datos: {
+                correct: true
+            }
+        });
+    }
+});
+
+app.get("/preguntas", function (request, response) {
+    if (request.session.currentUser != undefined) {
+        daoPreguntas.buscarPreguntas(request.session.currentUser, function cb_buscarPreguntas(err, result) {
+            if (err) {
+                console.log(err.message);
+            } else {
+                response.render("preguntas", {
+                    datos: {
+                        preguntas: result,
+                        puntos: request.session.puntos,
+                        foto: request.session.foto
+                    }
+                });
+            }
+        });
+    } else {
+        response.render("login", {
+            datos: {
+                correct: true
+            }
+        });
+    }
+});
+
 //FIN FUNCIONALIDAD PREGUNTAS
 
 // Arrancar el servidor
@@ -482,19 +616,11 @@ function middlewareNotFoundError(request, response) {
     response.status(404);
     console.log("Error404");
     // Nombre del documento plantilla EJS
-    response.render("login", {
-        datos: {
-            correct: true
-        }
-    });
+    response.render("error404");
 }
 function middlewareServerError(error, request, response, next) {
     response.status(500);
     // envío de página 500
     console.log("Error500");
-    response.render("login", {
-        datos: {
-            correct: true
-        }
-    });
+    response.render("error500");
 }*/

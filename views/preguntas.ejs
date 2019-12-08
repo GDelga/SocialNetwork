@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="shortcut icon" href="/html/imagenes/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/html/imagenes/FaceToFace.jpg" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <title>Face To Face</title>
 </head>
+
 <body>
     <header>
         <div class="divHeader">
@@ -39,31 +40,28 @@
                 <div class="divFotoPerfil"><img src="/imagenUsuario/<%=datos.foto%>" alt=""></div>
                 <div class="divDatos"><%=datos.puntos + " puntos"%></div>
             </div>
-
         </div>
     </header>
     <main>
         <div class="divMain">
             <div>
-                <h2>Tu perfil</h2>
+                <h2>Preguntas Aleatorias</h2>
             </div>
-            <div class="contenedorPerfil">
-                <div class="divDatosPerfil">
-                    <div>
-                        <img src="/imagenUsuario/<%=datos.foto%>" alt="">
-                    </div>
-                    <div class="info">
-                        <ul>
-                            <li><%=datos.usuario.NOMBRE%></li>
-                            <%if(datos.edad != null) {%>
-                                <li><%=datos.edad + " años"%></li>
-                            <%}%>
-                            <li><%=datos.usuario.GENERO%></li>
-                            <li><%=datos.puntos + " puntos"%></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="center"><a class="boton seleccionado" href="/modificar">Modificar perfil</a></div>
+            <div class="divPreguntas">
+                <table class="centrarTexto">
+                    <%if(datos.preguntas.length > 0) {%>
+                    <% datos.preguntas.forEach(pregunta => { %>
+                    <tr>
+                        <td><a href="/verPregunta/<%=pregunta.ID%>"><%=pregunta.PREGUNTA%></a></td>
+                    </tr>
+                    <%})%>
+                    <%} else {%>
+                    <tr>
+                        <td>No hay preguntas</td>
+                    </tr>
+                    <%}%>
+                </table>
+                <div class="center"><a class="botonCrearPregunta" href="/crearPregunta">¡Añade tus preguntas!</a></div>
             </div>
         </div>
     </main>

@@ -67,7 +67,7 @@ body {
     height: 100%;
 }
 
-.contenedorLogin {
+.contenedorLogin, .contenedorCrearPregunta {
     background-color: rgb(255, 201, 119);
     font-size: 1.3em;
     padding: 10px;
@@ -87,6 +87,12 @@ h2 {
 
 .divMain {
     padding-top: 250px;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.divMainError {
+    padding-top: 150px;
     margin-left: 25%;
     margin-right: 25%;
 }
@@ -256,6 +262,14 @@ li {
 .divResultadoBusqueda {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    justify-content: space-evenly;
+}
+
+.divPreguntas {
+    display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     margin-bottom: 15px;
     justify-content: space-evenly;
@@ -555,4 +569,16 @@ h3 {
 
 .margenAbajo5 {
     margin-bottom: 5px;
+}
+
+.foto500 {
+    width: 100%;
+}
+
+.fondoVerde{
+    background-color: rgb(108, 209, 130);
+}
+
+.colorBlockVerde {
+    background-color: rgb(199, 255, 213)
 }
