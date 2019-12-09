@@ -48,7 +48,9 @@
                 <h2><%=datos.pregunta.pregunta.PREGUNTA%></h2>
             </div>
             <div class="divResultadoBusqueda">
-                <form action="/pregunta/responder/<%=datos.pregunta.pregunta.ID%>/<%=datos.pregunta.pregunta.PREGUNTA%>" method="POST" class="foto500">
+                <form action="/pregunta/responder" method="POST" class="foto500">
+                    <input type="hidden" name="id" value="<%=datos.pregunta.pregunta.ID%>">
+                    <input type="hidden" name="pregunta" value="<%=datos.pregunta.pregunta.PREGUNTA%>">
                     <table>
                         <%datos.pregunta.respuestas.forEach(element => { %>
                         <tr>
@@ -59,7 +61,7 @@
                     <div class="divAddRespuesta">
                         <div><label>Otra respuestas:</label></div>
                         <div><input type="text" name="otro" placeholder="Nueva respuesta"></div>
-                        <div><button type="submit" formaction="/pregunta/addRespuesta/<%=datos.pregunta.pregunta.ID%>">Añadir</button></div>
+                        <div><button type="submit" formaction="/pregunta/addRespuesta">Añadir</button></div>
                     </div>
                     <div class="center"><button class="botonCrearPregunta" type="submit">Responder</button></div>
                 </form>

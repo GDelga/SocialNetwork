@@ -16,8 +16,8 @@ router.post("/crearPregunta", controladorPregunta.postCrearPregunta);
 router.get("/verPregunta/:id/:pregunta", controladorPregunta.getVerPregunta);
 
 router.get("/responder/:id", controladorPregunta.getResponderPregunta);
-router.post("/responder/:id/:pregunta", controladorPregunta.postResponderPregunta);
-router.post("/addRespuesta/:id", controladorPregunta.postAddRespuesta);
+router.post("/responder", controladorPregunta.postResponderPregunta);
+router.post("/addRespuesta", controladorPregunta.postAddRespuesta);
 router.get("/adivinar/:pregunta/:amigo/:nombre", controladorPregunta.getAdivinarPregunta);
 router.post("/adivinar", controladorPregunta.postAdivinarPregunta);
 

@@ -150,30 +150,30 @@ function getResponderPregunta(request, response, next) {
 
 function postResponderPregunta(request, response, next) {
     if(request.body.respuesta != undefined) {
-        daoPreguntas.responderPregunta(request.session.currentUser, request.params.id, request.body.respuesta, function cb_verPregunta(err, result) {
+        daoPreguntas.responderPregunta(request.session.currentUser, request.body.id, request.body.respuesta, function cb_verPregunta(err, result) {
             if (err) {
                 console.log(err.message);
                 next(err);
             } else {
-                response.redirect("/pregunta/verPregunta/"+request.params.id+"/"+request.params.pregunta)
+                response.redirect("/pregunta/verPregunta/"+request.body.id+"/"+request.body.pregunta)
             }
         });
     }
-    else response.redirect("/pregunta/responder/"+request.params.id);
+    else response.redirect("/pregunta/responder/"+request.body.id);
 }
 
 function postAddRespuesta(request, response, next) {
     if(/^(.*[^\s]+.*)$/.test(request.body.otro)) {
-        daoPreguntas.addRespuesta(request.params.id, request.body.otro, function cb_verPregunta(err, result) {
+        daoPreguntas.addRespuesta(request.body.id, request.body.otro, function cb_addRespuesta(err, result) {
             if (err) {
                 console.log(err.message);
                 next(err);
             } else {
-                response.redirect("/pregunta/responder/"+request.params.id);
+                response.redirect("/pregunta/responder/"+request.body.id);
             }
         });
     }
-    else response.redirect("/pregunta/responder/"+request.params.id);
+    else response.redirect("/pregunta/responder/"+request.body.id);
 }
 
 function getAdivinarPregunta(request, response, next) {
