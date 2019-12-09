@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="shortcut icon" href="/html/imagenes/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/imagenes/logo.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <title>Face To Face</title>
 </head>
@@ -15,7 +15,7 @@
             <div class="divLogoTitulo">
                 <div class="divTitulo">
                     <div class="faceToFaceLogo">
-                        <img src="/html/imagenes/logo.png" alt="">
+                        <img src="/imagenes/logo.png" alt="">
                     </div>
                     <div>
                         <h1>Face To Face</h1>
@@ -25,20 +25,20 @@
         </div>
         <div class="divMenuPerfil">
             <div class="seleccionado divPerfil">
-                <a href="/perfil">Perfil</a>
+                <a href="/usuario/perfil">Perfil</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="/amigos">Amigos</a>
+                <a href="/usuario/amigos">Amigos</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="/preguntas">Preguntas</a>
+                <a href="/pregunta/preguntas">Preguntas</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="/logout">Desconectarse</a>
+                <a href="/usuario/logout">Desconectarse</a>
             </div>
             <div class="divPerfil">
-                <div class="divFotoPerfil"><img src="/imagenUsuario/<%=datos.foto%>" alt=""></div>
-                <div class="divDatos"><%=datos.puntos + " puntos"%></div>
+                <div class="divFotoPerfil"><img src="/usuario/imagenUsuario/<%=usuarioLogueado.FOTO%>" alt=""></div>
+                <div class="divDatos"><%=usuarioLogueado.PUNTOS + " puntos"%></div>
             </div>
         </div>
     </header>
@@ -48,7 +48,7 @@
                 <h2>Modificar Perfil</h2>
             </div>
             <div class="contenedorLogin colorPerfil">
-                <form class="formModificar" action="/modificar" method="post" enctype="multipart/form-data">
+                <form class="formModificar" action="/usuario/modificar" method="post" enctype="multipart/form-data">
                     <div><label>Email:</label></div>
                     <div><input type="text" name="correo" class="colorBlock" value="<%=datos.usuario.CORREO %>"></div>
                     <div><label>Nombre completo:</label></div>

@@ -48,6 +48,29 @@ class DAOPreguntas {
         })
     }
 
+    listarRespuestasAmigos(email, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"))
+            } else {
+                connection.query(
+                    "SELECT DISTINCT * FROM RESPONDER AS RES JOIN "+
+                    "(SELECT DISTINCT ID_AMIGO FROM AMIGOS WHERE AMIGOS.ID_USUARIO=? " +
+                    "AND AMIGOS.ESTADO='ACEPTADO') AS AMI WHERE RES.ID_USUARIO = AMI.ID_AMIGO",
+                    [email],
+                    function (err, result) {
+                        connection.release();
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            callback(null, result);
+                        }
+                    }
+                )
+            }
+        })
+    }
+
     crearPregunta(email, question, respuestas, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {

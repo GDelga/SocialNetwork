@@ -4,17 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="shortcut icon" href="/html/imagenes/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/imagenes/logo.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <title>Face To Face</title>
 </head>
+
 <body>
     <header>
         <div class="divHeader">
             <div class="divLogoTitulo">
                 <div class="divTitulo">
                     <div class="faceToFaceLogo">
-                        <img src="/html/imagenes/logo.png" alt="">
+                        <img src="/imagenes/logo.png" alt="">
                     </div>
                     <div>
                         <h1>Face To Face</h1>
@@ -24,22 +25,21 @@
         </div>
         <div class="divMenuPerfil">
             <div class="seleccionado divPerfil">
-                <a href="/perfil">Perfil</a>
+                <a href="/usuario/perfil">Perfil</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="/amigos">Amigos</a>
+                <a href="/usuario/amigos">Amigos</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="/preguntas">Preguntas</a>
+                <a href="/pregunta/preguntas">Preguntas</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="/logout">Desconectarse</a>
+                <a href="/usuario/logout">Desconectarse</a>
             </div>
             <div class="divPerfil">
-                <div class="divFotoPerfil"><img src="/imagenUsuario/<%=datos.foto%>" alt=""></div>
-                <div class="divDatos"><%=datos.puntos + " puntos"%></div>
+                <div class="divFotoPerfil"><img src="/usuario/imagenUsuario/<%=usuarioLogueado.FOTO%>" alt=""></div>
+                <div class="divDatos"><%=usuarioLogueado.PUNTOS + " puntos"%></div>
             </div>
-
         </div>
     </header>
     <main>
@@ -50,7 +50,7 @@
             <div class="contenedorPerfil">
                 <div class="divDatosPerfil">
                     <div>
-                        <img src="/imagenUsuario/<%=datos.foto%>" alt="">
+                        <img src="/usuario/imagenUsuario/<%=usuarioLogueado.FOTO%>" alt="">
                     </div>
                     <div class="info">
                         <ul>
@@ -59,11 +59,11 @@
                                 <li><%=datos.edad + " años"%></li>
                             <%}%>
                             <li><%=datos.usuario.GENERO%></li>
-                            <li><%=datos.puntos + " puntos"%></li>
+                            <li><%=usuarioLogueado.PUNTOS + " puntos"%></li>
                         </ul>
                     </div>
                 </div>
-                <div class="center"><a class="boton seleccionado" href="/modificar">Modificar perfil</a></div>
+                <div class="center"><a class="boton seleccionado" href="/usuario/modificar">Modificar perfil</a></div>
             </div>
         </div>
     </main>

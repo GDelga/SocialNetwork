@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="imagenes/FaceToFace.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/imagenes/logo.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <title>Face To Face</title>
 </head>
@@ -15,7 +15,7 @@
             <div class="divLogoTitulo">
                 <div class="divTitulo">
                     <div class="faceToFaceLogo">
-                        <img src="imagenes/logo.png" alt="">
+                        <img src="/imagenes/logo.png" alt="">
                     </div>
                     <div>
                         <h1>Face To Face</h1>
@@ -25,36 +25,41 @@
         </div>
         <div class="divMenuPerfil">
             <div class="seleccionado divPerfil">
-                <a href="perfil.html">Perfil</a>
+                <a href="/usuario/perfil">Perfil</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="misAmigos.html">Amigos</a>
+                <a href="/usuario/amigos">Amigos</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="preguntas.html">Preguntas</a>
+                <a href="/pregunta/preguntas">Preguntas</a>
             </div>
             <div class="seleccionado divPerfil">
-                <a href="iniciarSesion.html">Desconectarse</a>
+                <a href="/usuario/logout">Desconectarse</a>
             </div>
             <div class="divPerfil">
-                <div class="divFotoPerfil"><img src="imagenes/perfil.png" alt=""></div>
-                <div class="divDatos">50 pts</div>
+                <div class="divFotoPerfil"><img src="/usuario/imagenUsuario/<%=usuarioLogueado.FOTO%>" alt=""></div>
+                <div class="divDatos"><%=usuarioLogueado.PUNTOS + " puntos"%></div>
             </div>
-
         </div>
     </header>
     <main>
         <div class="divMain">
             <div>
-                <h2>¿Nintendo Switch, PS4, o Xbox One?</h2>
+                <h2><%=datos.pregunta.PREGUNTA%></h2>
             </div>
 
             <div class="contenedorPregunta">
                 <div class="infoSuperior">
-                    <label>
-                        No has contestado a esta pregunta
-                    </label>
-                    <a href="responderPregunta.html">Contestar pregunta</a>
+                    <%if(!datos.pregunta.ID_RESPUESTA) {%>
+                        <label>
+                            No has contestado a esta pregunta
+                        </label>
+                        <a href="responderPregunta/<%=datos.pregunta.ID%>">Contestar pregunta</a>
+                    <%} else {%>
+                        <label>
+                            Ya has respondido a esta pregunta
+                        </label>
+                    <%}%>
                 </div>
                 <div>
                     <h3>
