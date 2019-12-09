@@ -45,23 +45,24 @@
     <main>
         <div class="divMain">
             <div>
-                <h2>Preguntas Aleatorias</h2>
+                <h2><%=datos.pregunta.pregunta.PREGUNTA%></h2>
             </div>
-            <div class="divPreguntas">
-                <table class="centrarTexto">
-                    <%if(datos.preguntas.length > 0) {%>
-                    <% datos.preguntas.forEach(pregunta => { %>
-                    <tr>
-                        <td><a href="/pregunta/verPregunta/<%=pregunta.ID%>/<%=pregunta.PREGUNTA%>"><%=pregunta.PREGUNTA%></a></td>
-                    </tr>
-                    <%})%>
-                    <%} else {%>
-                    <tr>
-                        <td>No hay preguntas</td>
-                    </tr>
-                    <%}%>
-                </table>
-                <div class="center"><a class="botonCrearPregunta" href="/pregunta/crearPregunta">¡Añade tus preguntas!</a></div>
+            <div class="divResultadoBusqueda">
+                <form action="/pregunta/responder/<%=datos.pregunta.pregunta.ID%>/<%=datos.pregunta.pregunta.PREGUNTA%>" method="POST" class="foto500">
+                    <table>
+                        <%datos.pregunta.respuestas.forEach(element => { %>
+                        <tr>
+                            <td><input type="radio" name="respuesta" value="<%=element.ID%>"><%=element.RESPUESTA%></td>
+                        </tr> 
+                        <%})%>
+                    </table>
+                    <div class="divAddRespuesta">
+                        <div><label>Otra respuestas:</label></div>
+                        <div><input type="text" name="otro" placeholder="Nueva respuesta"></div>
+                        <div><button type="submit" formaction="/pregunta/addRespuesta/<%=datos.pregunta.pregunta.ID%>">Añadir</button></div>
+                    </div>
+                    <div class="center"><button class="botonCrearPregunta" type="submit">Responder</button></div>
+                </form>
             </div>
         </div>
     </main>

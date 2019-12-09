@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -45,20 +45,20 @@
     <main>
         <div class="divMain">
             <div>
-                <h2><%=datos.pregunta.PREGUNTA%></h2>
+                <h2><%=datos.pregunta%></h2>
             </div>
 
             <div class="contenedorPregunta">
                 <div class="infoSuperior">
-                    <%if(!datos.pregunta.ID_RESPUESTA) {%>
-                        <label>
-                            No has contestado a esta pregunta
-                        </label>
-                        <a href="responderPregunta/<%=datos.pregunta.ID%>">Contestar pregunta</a>
+                    <%if(!datos.respondido) {%>
+                    <label>
+                        No has contestado a esta pregunta
+                    </label>
+                    <a href="/pregunta/responder/<%=datos.id_p%>">Contestar pregunta</a>
                     <%} else {%>
-                        <label>
-                            Ya has respondido a esta pregunta
-                        </label>
+                    <label>
+                        Ya has respondido a esta pregunta
+                    </label>
                     <%}%>
                 </div>
                 <div>
@@ -67,34 +67,37 @@
                     </h3>
                 </div>
                 <div class="divResultadoBusqueda">
+                <%if(datos.amigos.length > 0) {%>
+                    <%datos.amigos.forEach(element => {%>
+                    <%if(!element.RESULTADO) {%>
                     <div class="divPerfilEncontrado fondoAmarillo">
-                        <div>Bruja Piruja</div>
-                        <img class="imgPerfilBusqueda" src="imagenes/user1.png" alt="">
-                        <a href="responderPreguntaAmigo.html">Adivinar</a>
+                        <div><%=element.NOMBRE%></div>
+                        <img class="imgPerfilBusqueda margenAbajo" src="/usuario/imagenUsuario/<%=element.FOTO%>" alt="">
+                        <a href="/pregunta/adivinar/<%=datos.id_p%>/<%=element.CORREO%>/<%=element.NOMBRE%>">Adivinar</a>
                     </div>
-
-                    <div class="divPerfilEncontrado fondoAmarillo">
-                        <div>Hannibal Gomez</div>
-                        <img class="imgPerfilBusqueda" src="imagenes/user2.png" alt="">
-                        <a>Adivinar</a>
-                    </div>
-
+                    <%} else if(element.RESULTADO  == "FALLADA"){%>
                     <div class="divPerfilEncontrado fondoRojo">
-                        <div>Stuart Minion</div>
-                        <img class="imgPerfilBusqueda" src="imagenes/user3.png" alt="">
+                        <div><%=element.NOMBRE%></div>
+                        <img class="imgPerfilBusqueda" src="/usuario/imagenUsuario/<%=element.FOTO%>" alt="">
                         <div class="colorRojo">Has fallado</div>
                     </div>
-
+                    <%} else {%>
                     <div class="divPerfilEncontrado fondoVerde">
-                        <div>Goomba</div>
-                        <img class="imgPerfilBusqueda" src="imagenes/user4.png" alt="">
+                        <div><%=element.NOMBRE%></div>
+                        <img class="imgPerfilBusqueda" src="/usuario/imagenUsuario/<%=element.FOTO%>" alt="">
                         <div class="colorVerde">Has acertado</div>
                     </div>
+                    <%}%>
+                    <%});%>
+                <%} else {%>
+                    <div class="divPerfilEncontrado fondoAmarillo">
+                        <div>Ningún amigo ha respondido a esta pregunta</div>
+                    </div>
+                    <%}%>
                 </div>
             </div>
         </div>
     </main>
-
 </body>
 
 </html>
