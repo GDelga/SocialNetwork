@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-12-2019 a las 17:03:16
+-- Tiempo de generación: 10-12-2019 a las 19:25:34
 -- Versión del servidor: 10.1.28-MariaDB
 -- Versión de PHP: 7.1.11
 
@@ -30,16 +30,35 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `amigos` (
   `ID_USUARIO` varchar(255) NOT NULL COMMENT 'id del usuario',
-  `ID_AMIGO` varchar(255) NOT NULL COMMENT 'id del amigo que manda la petición',
+  `ID_AMIGO` varchar(255) NOT NULL COMMENT 'id del amigo que manda la peticion',
   `ESTADO` enum('ACEPTADO','PETICION') NOT NULL COMMENT 'estado de la peticion'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `amigos`
+-- Estructura de tabla para la tabla `fotos`
 --
 
-INSERT INTO `amigos` (`ID_USUARIO`, `ID_AMIGO`, `ESTADO`) VALUES
-('prueba1@gmail.com', 'prueba2@gmail.com', 'PETICION');
+CREATE TABLE `fotos` (
+  `ID` int(11) NOT NULL,
+  `ID_USUARIO` varchar(255) NOT NULL,
+  `FOTO` varchar(255) NOT NULL,
+  `TEXTO` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `notificaciones`
+--
+
+CREATE TABLE `notificaciones` (
+  `ID` int(11) NOT NULL COMMENT 'id de la notificacion',
+  `ID_USUARIO` varchar(255) NOT NULL COMMENT 'id del usuario',
+  `TEXTO` varchar(255) NOT NULL COMMENT 'contenido de la notificacion',
+  `VISTO` tinyint(1) NOT NULL COMMENT 'estado de la notificación'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -49,9 +68,16 @@ INSERT INTO `amigos` (`ID_USUARIO`, `ID_AMIGO`, `ESTADO`) VALUES
 
 CREATE TABLE `preguntas` (
   `ID` int(4) NOT NULL COMMENT 'id de la pregunta',
-  `PREGUNTA` varchar(255) NOT NULL COMMENT 'texto de la pregunta',
-  `TIPO` varchar(255) NOT NULL COMMENT 'indica si son opciones, campo de texto o ambos'
+  `CREADOR` varchar(255) NOT NULL COMMENT 'id del usuario que ha creado la pregunta',
+  `PREGUNTA` varchar(255) NOT NULL COMMENT 'texto de la pregunta'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `preguntas`
+--
+
+INSERT INTO `preguntas` (`ID`, `CREADOR`, `PREGUNTA`) VALUES
+(1, 'gdelga02@ucm.es', '¿PS4, XBox One o Nintendo Switch?');
 
 -- --------------------------------------------------------
 
@@ -87,7 +113,31 @@ CREATE TABLE `responder_amigos` (
 CREATE TABLE `respuestas` (
   `ID` int(4) NOT NULL COMMENT 'id de la respuesta',
   `RESPUESTA` varchar(255) NOT NULL COMMENT 'respuesta',
-  `ID_PREGUNTA` int(4) NOT NULL COMMENT 'id de la pregunta'
+  `ID_PREGUNTA` int(4) NOT NULL COMMENT 'id de la pregunta',
+  `ORIGINAL` tinyint(1) NOT NULL COMMENT 'indica si la respuesta la ha anadido otra persona'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `respuestas`
+--
+
+INSERT INTO `respuestas` (`ID`, `RESPUESTA`, `ID_PREGUNTA`, `ORIGINAL`) VALUES
+(1, 'PS4', 1, 1),
+(2, 'XBox One', 1, 1),
+(3, 'Nintendo Switch', 1, 1),
+(4, 'Ninguna', 1, 1),
+(5, 'Todas', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `session_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `expires` int(11) UNSIGNED NOT NULL,
+  `data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -98,12 +148,12 @@ CREATE TABLE `respuestas` (
 
 CREATE TABLE `usuarios` (
   `CORREO` varchar(255) NOT NULL COMMENT 'id del usuario',
-  `CONTRASENA` varchar(255) NOT NULL COMMENT 'contraseña',
+  `CONTRASENA` varchar(255) NOT NULL COMMENT 'contrasena',
   `NOMBRE` varchar(255) NOT NULL COMMENT 'nombre completo',
-  `GENERO` enum('MASCULINO','FEMENINO','OTRO') NOT NULL COMMENT 'genero del usuario',
+  `GENERO` enum('Masculino','Femenino','Otro') NOT NULL COMMENT 'genero del usuario',
   `NACIMIENTO` date DEFAULT NULL COMMENT 'fecha de nacimiento',
-  `FOTO` blob COMMENT 'foto de perfil',
-  `PUNTOS` int(4) NOT NULL DEFAULT '0' COMMENT 'puntuación del usuario'
+  `FOTO` varchar(255) DEFAULT NULL COMMENT 'foto de perfil',
+  `PUNTOS` int(4) NOT NULL DEFAULT '0' COMMENT 'puntuacion del usuario'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -111,9 +161,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`CORREO`, `CONTRASENA`, `NOMBRE`, `GENERO`, `NACIMIENTO`, `FOTO`, `PUNTOS`) VALUES
-('prueba1@gmail.com', 'hola', 'Prueba 1', 'MASCULINO', '2019-12-16', NULL, 0),
-('prueba2@gmail.com', 'prueba', 'Prueba 2', 'FEMENINO', '2019-12-01', NULL, 0),
-('prueba3@gmail.com', 'hola', 'Prueba 3', 'OTRO', '2019-12-01', NULL, 0);
+('gdelga02@ucm.es', 'Secreto', 'Guillermo Delgado', 'Masculino', '1997-01-25', '41b25181cf78faf053c5581bce7f40be', 0);
 
 --
 -- Índices para tablas volcadas
@@ -127,10 +175,24 @@ ALTER TABLE `amigos`
   ADD KEY `FOREIGNKEY_AMIGO_ID_AMIGO` (`ID_AMIGO`);
 
 --
+-- Indices de la tabla `fotos`
+--
+ALTER TABLE `fotos`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FOREIGNKEY_FOTOS_ID_USUARIO` (`ID_USUARIO`);
+
+--
+-- Indices de la tabla `notificaciones`
+--
+ALTER TABLE `notificaciones`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indices de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FOREIGNKEY_PREGUNTA_CREADOR` (`CREADOR`);
 
 --
 -- Indices de la tabla `responder`
@@ -156,6 +218,12 @@ ALTER TABLE `respuestas`
   ADD KEY `FOREIGNKEY_RESPUESTAS_ID_PREGUNTA` (`ID_PREGUNTA`);
 
 --
+-- Indices de la tabla `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`session_id`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -166,16 +234,28 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `fotos`
+--
+ALTER TABLE `fotos`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `notificaciones`
+--
+ALTER TABLE `notificaciones`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id de la notificacion', AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
-  MODIFY `ID` int(4) NOT NULL AUTO_INCREMENT COMMENT 'id de la pregunta';
+  MODIFY `ID` int(4) NOT NULL AUTO_INCREMENT COMMENT 'id de la pregunta', AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `respuestas`
 --
 ALTER TABLE `respuestas`
-  MODIFY `ID` int(4) NOT NULL AUTO_INCREMENT COMMENT 'id de la respuesta';
+  MODIFY `ID` int(4) NOT NULL AUTO_INCREMENT COMMENT 'id de la respuesta', AUTO_INCREMENT=10;
 
 --
 -- Restricciones para tablas volcadas
@@ -187,6 +267,18 @@ ALTER TABLE `respuestas`
 ALTER TABLE `amigos`
   ADD CONSTRAINT `FOREIGNKEY_AMIGO_ID_AMIGO` FOREIGN KEY (`ID_AMIGO`) REFERENCES `usuarios` (`CORREO`),
   ADD CONSTRAINT `FOREIGNKEY_AMIGO_ID_USUARIO` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuarios` (`CORREO`);
+
+--
+-- Filtros para la tabla `fotos`
+--
+ALTER TABLE `fotos`
+  ADD CONSTRAINT `FOREIGNKEY_FOTOS_ID_USUARIO` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuarios` (`CORREO`);
+
+--
+-- Filtros para la tabla `preguntas`
+--
+ALTER TABLE `preguntas`
+  ADD CONSTRAINT `FOREIGNKEY_PREGUNTA_CREADOR` FOREIGN KEY (`CREADOR`) REFERENCES `usuarios` (`CORREO`);
 
 --
 -- Filtros para la tabla `responder`
