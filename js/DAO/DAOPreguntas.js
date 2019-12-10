@@ -134,7 +134,7 @@ class DAOPreguntas {
                                                     } else {
                                                         if (result.length == 1) {
                                                             let respuestaCorrecta = [];
-                                                            if (result[0].ORIGINAL) respuestaCorrecta = result;
+                                                            if (!result[0].ORIGINAL) respuestaCorrecta = result;
                                                             connection.query(
                                                                 "SELECT * FROM RESPUESTAS WHERE ID_PREGUNTA = ? AND ORIGINAL=? " +
                                                                 "ORDER BY RAND() LIMIT ?",

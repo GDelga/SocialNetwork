@@ -34,4 +34,6 @@ router.get("/aceptar/:correo", controladorUsuario.getAceptar);
 router.get("/rechazar/:correo", controladorUsuario.getRechazar);
 router.get("/notificaciones", controladorUsuario.getNotificaciones);
 
+router.post("/foto", multerFactory.single("foto"), controladorUsuario.postSubirFoto);
+
 module.exports = router;

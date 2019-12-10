@@ -36,20 +36,18 @@ app.listen(config.port, function (err) {
     }
 });
 
-
 //manejo errores 404 y 500
 app.use(middlewareNotFoundError);
 app.use(middlewareServerError);
-// Arranque del servior (listen)
+
 function middlewareNotFoundError(request, response) {
     response.status(404);
     console.log("Error404");
-    // Nombre del documento plantilla EJS
     response.render("error404");
 }
+
 function middlewareServerError(error, request, response, next) {
     response.status(500);
-    // envío de página 500
     console.log("Error500");
     response.render("error500");
 }

@@ -293,6 +293,11 @@ li {
     height: 100px;
 }
 
+.imgSubidas {
+    width: 200px;
+    height: 200px;
+}
+
 .divPerfilEncontrado .seleccionado:hover {
     background-image: linear-gradient(rgb(170, 137, 177), rgb(91, 52, 99), rgb(220, 205, 223));
 }
@@ -434,7 +439,7 @@ h4 {
 .divBuscarAmigo button:hover,
 .divAddRespuesta a:hover,
 .divAddRespuesta button:hover,
-.fondoAzul a:hover{
+.fondoAzul a:hover, .botonAzul:hover{
     background-image: linear-gradient(rgb(137, 129, 184), rgb(37, 45, 119), rgb(202, 198, 219));
 }
 
@@ -603,6 +608,10 @@ h3 {
     margin-bottom: 5px;
 }
 
+.margenArriba5 {
+    margin-top: 5px;
+}
+
 .foto500 {
     width: 100%;
 }
@@ -613,4 +622,23 @@ h3 {
 
 .colorBlockVerde {
     background-color: rgb(199, 255, 213)
+}
+
+.botonVerde {
+    border-radius: 5px;
+    white-space: nowrap;
+    border: 2px solid rgb(0, 83, 4);
+    background-color: #57ff7b;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+    color: rgb(4, 59, 9);
+    font-size: inherit;
+}
+
+.botonVerde:hover {
+    background-image: linear-gradient(#57ff7b, rgb(37, 119, 44), rgb(101, 223, 101));
+    color: white;
 }

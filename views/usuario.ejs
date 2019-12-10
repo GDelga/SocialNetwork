@@ -68,6 +68,19 @@
                         class="boton seleccionado">Solicitar amistad</a></div>
                 <%}%>
             </div>
+            <%if(datos.fotos.length > 0) {%>
+                <div class="margenArriba">
+                    <h2>Fotos de <%=datos.usuario.NOMBRE%></h2>
+                </div>
+                <div class="divResultadoBusqueda">
+                    <% datos.fotos.forEach(element => { %>
+                        <div class="divPerfilEncontrado fondoAzul">
+                            <img class="imgSubidas" src="/usuario/imagenUsuario/<%=element.FOTO%>" alt="">
+                            <div class="margenArriba5"><%=element.TEXTO%></div>
+                        </div>
+                    <%})%>
+                </div>
+            <%}%>
         </div>
     </main>
 

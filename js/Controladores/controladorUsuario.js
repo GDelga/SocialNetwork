@@ -51,8 +51,20 @@ function postRegistro(request, response, next) {
     }
     if (request.body.fecha == "") {
         request.body.fecha = null;
+    } else {
+        let hoy = new Date();
+        let miFecha = new Date(request.body.fecha);
+        if (hoy < miFecha) {
+            response.render("registro", {
+                datos: {
+                    error: true,
+                    mensaje: "La fecha no es válida"
+                }
+            });
+            errores = true;
+        }
     }
-    if (!/^([^@]+@[^@]+\.[a-zA-Z]{2,})$/.test(request.body.correo)) {
+    if (!/^([^@]+@[^@]+\.[a-zA-Z]{2,})$/.test(request.body.correo) && !errores) {
         response.render("registro", {
             datos: {
                 error: true,
@@ -217,7 +229,7 @@ function getModificar(request, response, next) {
             let fecha = "";
             if (nacimiento) {
                 fecha = nacimiento.getFullYear() + "-" +
-                    (nacimiento.getMonth() + 1 <= 9 ? "0" + (nacimiento.getMonth() + 1) : (nacimiento.getMonth() +1)) + "-" +
+                    (nacimiento.getMonth() + 1 <= 9 ? "0" + (nacimiento.getMonth() + 1) : (nacimiento.getMonth() + 1)) + "-" +
                     (nacimiento.getDate() <= 9 ? "0" + nacimiento.getDate() : nacimiento.getDate());
             }
             response.render("modificar", {
@@ -239,17 +251,36 @@ function postModificar(request, response, next) {
     } else foto = response.locals.usuarioLogueado.FOTO;
     if (request.body.fecha == "") {
         request.body.fecha = null;
+    } else {
+        let hoy = new Date();
+        let miFecha = new Date(request.body.fecha);
+        if (hoy < miFecha) {
+            let user = {
+                GENERO: request.body.genero,
+                NOMBRE: request.body.nombre,
+                CORREO: request.body.correo
+            }
+            response.render("modificar", {
+                datos: {
+                    error: true,
+                    mensaje: "La fecha no es válida",
+                    usuario: user,
+                    fecha: request.body.fecha
+                }
+            });
+            errores = true;
+        }
     }
-    if (!/^(.*[^\s]+.*)$/.test(request.body.nombre)) {
+    if (!/^(.*[^\s]+.*)$/.test(request.body.nombre) && !errores) {
         let user = {
             GENERO: request.body.genero,
-            NOMBRE: request.body.NOMBRE,
-            CORREO: request.body.email
+            NOMBRE: request.body.nombre,
+            CORREO: request.body.correo
         }
         if (request.body.fecha == null) {
             request.body.fecha = "";
         }
-        response.render("registro", {
+        response.render("modificar", {
             datos: {
                 error: true,
                 mensaje: "El nombre es obligatorio",
@@ -263,13 +294,13 @@ function postModificar(request, response, next) {
             request.body.genero != "Otro") && !errores) {
         let user = {
             GENERO: request.body.genero,
-            NOMBRE: request.body.NOMBRE,
-            CORREO: request.body.email
+            NOMBRE: request.body.nombre,
+            CORREO: request.body.correo
         }
         if (request.body.fecha == null) {
             request.body.fecha = "";
         }
-        response.render("registro", {
+        response.render("modificar", {
             datos: {
                 error: true,
                 mensaje: "El genero es obligatorio",
@@ -356,15 +387,23 @@ function getPerfilUsuario(request, response, next) {
             if (result[0].NACIMIENTO) {
                 diff = (new Date().getTime() - result[0].NACIMIENTO.getTime()) / 1000;
                 diff /= (60 * 60 * 24);
-                diff = Math.abs(Math.round(diff / 365.25));
+                diff = Math.abs(Math.floor(diff / 365.25));
             }
-            response.render("usuario", {
-                datos: {
-                    usuario: result[0],
-                    edad: diff,
-                    amigo: request.params.amigo
+            let usuario = result[0];
+            daoUsuarios.listarFotos(request.params.correo, function cb_listarFotos(err, result) {
+                if (err) {
+                    console.log(err.message);
+                    next(err);
+                } else {
+                    response.render("usuario", {
+                        datos: {
+                            edad: diff,
+                            fotos: result,
+                            usuario: usuario
+                        }
+                    });
                 }
-            });
+            })
         }
     });
 }
@@ -396,6 +435,38 @@ function getRechazar(request, response, next) {
     })
 }
 
+function postSubirFoto(request, response, next) {
+    let foto = null,
+        errores = false;
+    if (request.session.datosUsuario.PUNTOS < 100) {
+        errores = true;
+        response.redirect("/usuario/perfil");
+    }
+    if (request.file) {
+        foto = request.file.filename;
+    } else {
+        errores = true;
+        response.redirect("/usuario/perfil");
+    }
+    if (!/^(.*[^\s]+.*)$/.test(request.body.texto) && !errores) {
+        errores = true;
+        response.redirect("/usuario/perfil");
+    }
+    if (!errores) {
+        daoUsuarios.insertarFoto(request.session.currentUser, foto,
+            request.body.texto, request.session.datosUsuario.PUNTOS,
+            function cb_insertarFoto(err, result) {
+                if (err) {
+                    console.log(err.message);
+                    next(err);
+                } else {
+                    request.session.datosUsuario.PUNTOS = result;
+                    response.redirect("/usuario/perfil");
+                }
+            });
+    }
+}
+
 
 
 module.exports = {
@@ -413,9 +484,10 @@ module.exports = {
     postBuscar: postBuscar,
     getPeticion: getPeticion,
     getAceptar: getAceptar,
-    getRechazar: getRechazar, 
+    getRechazar: getRechazar,
     getImagenPorDefecto: getImagenPorDefecto,
     getImagenUsuario: getImagenUsuario,
     middlewareSession: middlewareSession,
-    getNotificaciones: getNotificaciones
+    getNotificaciones: getNotificaciones,
+    postSubirFoto: postSubirFoto
 }

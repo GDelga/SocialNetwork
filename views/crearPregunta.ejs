@@ -58,7 +58,7 @@
                     <%if(datos.respuestas == undefined) { %>
                         <div>Nº Respuestas:</div>
                         <div><input type="number" id="respuestas" name="respuestas" min="2"></div>
-                        <div class="center gridColumnInicio"><button class="boton seleccionado" type="submit"
+                        <div class="center gridColumnInicio"><button class="botonVerde" type="submit"
                                 formaction="/pregunta/insertarRespuestas">Insertar Respuestas</button></div>
                     <%}else {%>
                         <div>Nº Respuestas:</div>
@@ -67,7 +67,7 @@
                             <div>Respuesta <%=i%>:</div>
                             <div><input type="text" name="respuesta"></div>
                         <%}%>
-                        <div class="center gridColumnInicio"><button class="boton seleccionado" type="submit" formaction="/pregunta/crearPregunta">Crear Pregunta</button></div>
+                        <div class="center gridColumnInicio"><button class="botonVerde" type="submit" formaction="/pregunta/crearPregunta">Crear Pregunta</button></div>
                     <%}%>
 
                 </form>

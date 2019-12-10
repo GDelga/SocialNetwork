@@ -75,23 +75,33 @@
                 <div class="margenArriba">
                     <h2>Tus fotos</h2>
                 </div>
-                <form action="" method="post">
-                    <div class="divAddRespuesta">
-                        <div><input type="file" value="image/*" name="foto"></div>
-                        <div><button type="submit" formaction="/pregunta/addRespuesta">Añadir</button></div>
-                    </div>
-                </form>
+                <div class="divResultadoBusqueda">
+                    <% datos.fotos.forEach(element => { %>
+                        <div class="divPerfilEncontrado fondoAzul">
+                            <img class="imgSubidas" src="/usuario/imagenUsuario/<%=element.FOTO%>" alt="">
+                            <div class="margenArriba5"><%=element.TEXTO%></div>
+                        </div>
+                    <%})%>
+                </div>
             <%}%>
             <%if(usuarioLogueado.PUNTOS >= 100) {%>
                 <div class="margenArriba">
                     <h2>¡Si tienes 100 puntos puedes subir una imagen!</h2>
                 </div>
-                <form action="" method="post">
-                    <div class="divAddRespuesta">
+                <div class="contenedorLogin fondoVerde">
+                    <form class="formModificar" action="/usuario/foto" method="post" enctype="multipart/form-data">
+                        <div><label>Imagen de perfil:</label></div>
                         <div><input type="file" value="image/*" name="foto"></div>
-                        <div><button type="submit" formaction="/pregunta/addRespuesta">Añadir</button></div>
-                    </div>
-                </form>
+                        <div><label>Texto de la foto:</label></div>
+                        <div><input type="text" name="texto"></div>
+                        <div class="center gridColumnInicio"><button class="botonVerde" type="submit">Añadir Foto</button></div>
+                    </form>
+                    <%if(datos.error != undefined && datos.error) {%>
+                        <div class="center">
+                            <%=datos.mensaje %>   
+                        </div>
+                    <% } %>
+                </div>
             <%}%>
         </div>
     </main>

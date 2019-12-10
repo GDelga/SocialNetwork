@@ -281,23 +281,23 @@ class DAOUsuarios {
         })
     }
 
-    insertarFoto(email, foto, puntos, callback) {
+    insertarFoto(email, foto, texto, puntos, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
                 connection.query(
-                    "INSERT INTO FOTOS (ID_USUARIO, FOTO) " +
-                    "VALUES (?, ?)",
-                    [email, foto],
+                    "INSERT INTO FOTOS (ID_USUARIO, FOTO, TEXTO) " +
+                    "VALUES (?, ?, ?)",
+                    [email, foto, texto],
                     function (err, result) {
                         if (err) {
                             connection.release();
                             callback(new Error("Error de acceso a la base de datos"));
                         } else {
                             connection.query(
-                                "UPDATE FOTOS SET PUNTOS=? WHERE CORREO=?",
-                                [puntos -= puntos, email],
+                                "UPDATE USUARIOS SET PUNTOS=? WHERE CORREO=?",
+                                [puntos -= 100, email],
                                 function (err, result) {
                                     connection.release();
                                     if (err) {
