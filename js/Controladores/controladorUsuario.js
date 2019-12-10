@@ -1,5 +1,6 @@
 const path = require("path");
 const DAOUsuarios = require("../DAO/DAOUsuarios");
+const DAONotificaciones = require("../DAO/DAONotificaciones");
 const mysql = require("mysql");
 const mysqlSession = require("express-mysql-session");
 const fs = require("fs");
@@ -23,6 +24,7 @@ const middlewareSession = session({
 
 // Crear una instancia de DAOs
 const daoUsuarios = new DAOUsuarios(pool);
+const daoNotificaciones = new DAONotificaciones(pool);
 
 function controladorDeAcceso(request, response, next) {
     response.locals.usuarioLogueado = request.session.datosUsuario;
@@ -160,18 +162,49 @@ function getPerfil(request, response, next) {
             if (result[0].NACIMIENTO) {
                 diff = (new Date().getTime() - result[0].NACIMIENTO.getTime()) / 1000;
                 diff /= (60 * 60 * 24);
-                diff = Math.abs(Math.round(diff / 365.25));
+                diff = Math.abs(Math.floor(diff / 365.25));
             }
             request.session.datosUsuario = result[0];
             response.locals.usuarioLogueado = request.session.datosUsuario;
-            response.render("perfil", {
+            daoNotificaciones.listarNotificaciones(request.session.currentUser, function cb_listarNotificaciones(err, result) {
+                if (err) {
+                    console.log(err.message);
+                    next(err);
+                } else {
+                    let notificaciones = result;
+                    daoUsuarios.listarFotos(request.session.currentUser, function cb_listarFotos(err, result) {
+                        if (err) {
+                            console.log(err.message);
+                            next(err);
+                        } else {
+                            response.render("perfil", {
+                                datos: {
+                                    edad: diff,
+                                    notificaciones: notificaciones,
+                                    fotos: result
+                                }
+                            });
+                        }
+                    })
+                }
+            })
+        }
+    });
+}
+
+function getNotificaciones(request, response, next) {
+    daoNotificaciones.listarNotificaciones(request.session.currentUser, function cb_listarNotificaciones(err, result) {
+        if (err) {
+            console.log(err.message);
+            next(err);
+        } else {
+            response.render("notificaciones", {
                 datos: {
-                    usuario: result[0],
-                    edad: diff
+                    notificaciones: result
                 }
             });
         }
-    });
+    })
 }
 
 function getModificar(request, response, next) {
@@ -383,5 +416,6 @@ module.exports = {
     getRechazar: getRechazar, 
     getImagenPorDefecto: getImagenPorDefecto,
     getImagenUsuario: getImagenUsuario,
-    middlewareSession: middlewareSession
+    middlewareSession: middlewareSession,
+    getNotificaciones: getNotificaciones
 }

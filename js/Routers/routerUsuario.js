@@ -32,5 +32,6 @@ router.get("/verUsuario/:correo/:amigo", controladorUsuario.getPerfilUsuario);
 router.get("/solicitar/:correo", controladorUsuario.getPeticion);
 router.get("/aceptar/:correo", controladorUsuario.getAceptar);
 router.get("/rechazar/:correo", controladorUsuario.getRechazar);
+router.get("/notificaciones", controladorUsuario.getNotificaciones);
 
 module.exports = router;

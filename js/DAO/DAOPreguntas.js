@@ -17,9 +17,9 @@ class DAOPreguntas {
                             connection.release();
                             callback(new Error("Error de acceso a la base de datos"));
                         } else {
-                            let query = "INSERT INTO RESPUESTAS (ID_PREGUNTA, RESPUESTA) VALUES";
+                            let query = "INSERT INTO RESPUESTAS (ID_PREGUNTA, ORIGINAL, RESPUESTA) VALUES";
                             for (let i in respuestas) {
-                                query += "(" + result.insertId + ", '" + respuestas[i] + "')";
+                                query += "(" + result.insertId + ", " + true + ", '" + respuestas[i] + "')";
                                 if (i != respuestas.length - 1) query += ",";
                             }
                             connection.query(
@@ -44,12 +44,12 @@ class DAOPreguntas {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
                 connection.query(
-                    "INSERT INTO RESPUESTAS (ID_PREGUNTA, RESPUESTA) " +
-                    "VALUES (?, ?)",
-                    [pregunta, respuesta],
+                    "INSERT INTO RESPUESTAS (ID_PREGUNTA, ORIGINAL, RESPUESTA) " +
+                    "VALUES (?, ?, ?)",
+                    [pregunta, false, respuesta],
                     function (err, result) {
                         connection.release();
-                        if (err) {                          
+                        if (err) {
                             callback(new Error("Error de acceso a la base de datos"));
                         } else callback(null);
                     }
@@ -85,6 +85,79 @@ class DAOPreguntas {
                                                 respuestas: result,
                                                 pregunta: n_pregunta
                                             });
+                                        }
+                                    }
+                                )
+                            } else {
+                                connection.release();
+                                callback(new Error("Error de acceso a la base de datos"));
+                            }
+                        }
+                    }
+                )
+            }
+        })
+    }
+
+    verAdivinarPregunta(pregunta, amigo, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"))
+            } else {
+                connection.query(
+                    "SELECT * FROM PREGUNTAS WHERE ID = ?",
+                    [pregunta],
+                    function (err, result) {
+                        if (err) {
+                            connection.release();
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            if (result.length == 1) {
+                                let n_pregunta = result[0];
+                                connection.query(
+                                    "SELECT * FROM RESPUESTAS WHERE ID_PREGUNTA=? AND ORIGINAL=?",
+                                    [pregunta, true],
+                                    function (err, result) {
+                                        if (err) {
+                                            connection.release();
+                                            callback(new Error("Error de acceso a la base de datos"));
+                                        } else {
+                                            let respuestasOriginales = result;
+                                            connection.query(
+                                                "SELECT ID_RESPUESTA, RESPUESTA, RESPONDER.ID_PREGUNTA, ORIGINAL FROM RESPONDER JOIN RESPUESTAS ON RESPONDER.ID_RESPUESTA = RESPUESTAS.ID " +
+                                                "WHERE ID_USUARIO =? AND RESPONDER.ID_PREGUNTA =?",
+                                                [amigo, pregunta],
+                                                function (err, result) {
+                                                    if (err) {
+                                                        connection.release();
+                                                        callback(new Error("Error de acceso a la base de datos"));
+                                                    } else {
+                                                        if (result.length == 1) {
+                                                            let respuestaCorrecta = [];
+                                                            if (result[0].ORIGINAL) respuestaCorrecta = result;
+                                                            connection.query(
+                                                                "SELECT * FROM RESPUESTAS WHERE ID_PREGUNTA = ? AND ORIGINAL=? " +
+                                                                "ORDER BY RAND() LIMIT ?",
+                                                                [pregunta, false, (respuestasOriginales.length - respuestaCorrecta.length)],
+                                                                function (err, result) {
+                                                                    connection.release();
+                                                                    if (err) {
+                                                                        callback(new Error("Error de acceso a la base de datos"));
+                                                                    } else {
+                                                                        callback(null, {
+                                                                            respuestas: respuestasOriginales.concat(respuestaCorrecta, result),
+                                                                            pregunta: n_pregunta
+                                                                        })
+                                                                    }
+                                                                }
+                                                            )
+                                                        } else {
+                                                            connection.release();
+                                                            callback(new Error("Error de acceso a la base de datos"));
+                                                        }
+                                                    }
+                                                }
+                                            )
                                         }
                                     }
                                 )
@@ -219,7 +292,8 @@ class DAOPreguntas {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
                 connection.query(
-                    "SELECT ID_RESPUESTA FROM RESPONDER WHERE ID_USUARIO = ? AND ID_PREGUNTA = ?",
+                    "SELECT ID_RESPUESTA, RESPUESTA FROM RESPONDER JOIN RESPUESTAS ON RESPONDER.ID_RESPUESTA = RESPUESTAS.ID " +
+                    "WHERE ID_USUARIO =? AND RESPONDER.ID_PREGUNTA =?",
                     [amigo, pregunta],
                     function (err, result) {
                         if (err) {
@@ -227,6 +301,7 @@ class DAOPreguntas {
                             callback(new Error("Error de acceso a la base de datos"));
                         } else {
                             let resultado = "FALLADA";
+                            let n_respuesta = result[0].RESPUESTA;
                             if (result[0].ID_RESPUESTA == respuesta) {
                                 resultado = "ACERTADA";
                             }
@@ -248,13 +323,21 @@ class DAOPreguntas {
                                                     if (err) {
                                                         callback(new Error("Error de acceso a la base de datos"));
                                                     } else {
-                                                        callback(null, puntos);
+                                                        callback(null, {
+                                                            puntos: puntos,
+                                                            resultado: "acertado",
+                                                            respuesta: n_respuesta
+                                                        });
                                                     }
                                                 }
                                             )
                                         } else {
                                             connection.release();
-                                            callback(null, puntos);
+                                            callback(null, {
+                                                puntos: puntos,
+                                                resultado: "fallado",
+                                                respuesta: n_respuesta
+                                            });
                                         }
                                     }
                                 }

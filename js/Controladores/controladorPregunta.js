@@ -1,5 +1,6 @@
 const path = require("path");
 const DAOPreguntas = require("../DAO/DAOPreguntas");
+const DAONotificaciones = require("../DAO/DAONotificaciones");
 const mysql = require("mysql");
 const fs = require("fs");
 const session = require("express-session")
@@ -11,6 +12,7 @@ const pool = mysql.createPool(config.mysqlConfig);
 
 // Crear una instancia de DAOs
 const daoPreguntas = new DAOPreguntas(pool);
+const daoNotificaciones = new DAONotificaciones(pool);
 
 function getPreguntas(request, response, next) {
     daoPreguntas.buscarPreguntas(function cb_buscarPreguntas(err, result) {
@@ -149,35 +151,33 @@ function getResponderPregunta(request, response, next) {
 }
 
 function postResponderPregunta(request, response, next) {
-    if(request.body.respuesta != undefined) {
+    if (request.body.respuesta != undefined) {
         daoPreguntas.responderPregunta(request.session.currentUser, request.body.id, request.body.respuesta, function cb_verPregunta(err, result) {
             if (err) {
                 console.log(err.message);
                 next(err);
             } else {
-                response.redirect("/pregunta/verPregunta/"+request.body.id+"/"+request.body.pregunta)
+                response.redirect("/pregunta/verPregunta/" + request.body.id + "/" + request.body.pregunta)
             }
         });
-    }
-    else response.redirect("/pregunta/responder/"+request.body.id);
+    } else response.redirect("/pregunta/responder/" + request.body.id);
 }
 
 function postAddRespuesta(request, response, next) {
-    if(/^(.*[^\s]+.*)$/.test(request.body.otro)) {
+    if (/^(.*[^\s]+.*)$/.test(request.body.otro)) {
         daoPreguntas.addRespuesta(request.body.id, request.body.otro, function cb_addRespuesta(err, result) {
             if (err) {
                 console.log(err.message);
                 next(err);
             } else {
-                response.redirect("/pregunta/responder/"+request.body.id);
+                response.redirect("/pregunta/responder/" + request.body.id);
             }
         });
-    }
-    else response.redirect("/pregunta/responder/"+request.body.id);
+    } else response.redirect("/pregunta/responder/" + request.body.id);
 }
 
 function getAdivinarPregunta(request, response, next) {
-    daoPreguntas.verPregunta(request.params.pregunta, function cb_verPregunta(err, result) {
+    daoPreguntas.verAdivinarPregunta(request.params.pregunta, request.params.amigo, function cb_verPregunta(err, result) {
         if (err) {
             console.log(err.message);
             next(err);
@@ -194,20 +194,32 @@ function getAdivinarPregunta(request, response, next) {
 }
 
 function postAdivinarPregunta(request, response, next) {
-    if(request.body.respuesta != undefined) {
+    if (request.body.respuesta != undefined) {
+        let sep = request.body.respuesta.split("[=]");
         daoPreguntas.responderAmigo(request.session.currentUser, request.body.id,
-             request.body.amigo, request.body.respuesta, response.locals.usuarioLogueado.PUNTOS,
-              function cb_verPregunta(err, result) {
-            if (err) {
-                console.log(err.message);
-                next(err);
-            } else {
-                request.session.datosUsuario.PUNTOS = result;
-                response.redirect("/pregunta/verPregunta/"+request.body.id+"/"+request.body.pregunta)
-            }
-        });
-    }
-    else response.redirect("/pregunta/adivinar/"+request.body.id+"/"+request.body.amigo+"/"+request.body.nombre);
+            request.body.amigo, sep[0], response.locals.usuarioLogueado.PUNTOS,
+            function cb_verPregunta(err, result) {
+                if (err) {
+                    console.log(err.message);
+                    next(err);
+                } else {
+                    request.session.datosUsuario.PUNTOS = result.puntos;
+                    let texto = "Tu amig@ " + request.body.nombre +
+                        " ha " + result.resultado + " la pregunta: " +
+                        request.body.pregunta + ". Tú respondiste: " + result.respuesta +
+                        " y tu amig@: " + sep[1] + ".";
+                    daoNotificaciones.mandarNotificacion(request.session.currentUser, texto,
+                        function cb_mandarNotificacion(err, result) {
+                            if (err) {
+                                console.log(err.message);
+                                next(err);
+                            } else {
+                                response.redirect("/pregunta/verPregunta/" + request.body.id + "/" + request.body.pregunta);
+                            }
+                        });
+                }
+            });
+    } else response.redirect("/pregunta/adivinar/" + request.body.id + "/" + request.body.amigo + "/" + request.body.nombre);
 }
 
 module.exports = {

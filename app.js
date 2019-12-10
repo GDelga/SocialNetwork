@@ -1,6 +1,7 @@
 // app.js
 const routerUsuario = require("./js/Routers/routerUsuario");
 const routerPregunta = require("./js/Routers/routerPregunta");
+const routerNotificaciones = require("./js/Routers/routerNotificaciones");
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -18,6 +19,8 @@ app.use(bodyParser.urlencoded({
 
 app.use("/usuario", routerUsuario);
 app.use("/pregunta", routerPregunta);
+app.use("/notificacion", routerNotificaciones);
+
 const ficheroEstatico = path.join(__dirname, "public");
 app.use(express.static(ficheroEstatico));
 
@@ -33,7 +36,7 @@ app.listen(config.port, function (err) {
     }
 });
 
-/*
+
 //manejo errores 404 y 500
 app.use(middlewareNotFoundError);
 app.use(middlewareServerError);
@@ -49,4 +52,4 @@ function middlewareServerError(error, request, response, next) {
     // envío de página 500
     console.log("Error500");
     response.render("error500");
-}*/
+}

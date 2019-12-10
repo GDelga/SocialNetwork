@@ -280,6 +280,60 @@ class DAOUsuarios {
             }
         })
     }
+
+    insertarFoto(email, foto, puntos, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"))
+            } else {
+                connection.query(
+                    "INSERT INTO FOTOS (ID_USUARIO, FOTO) " +
+                    "VALUES (?, ?)",
+                    [email, foto],
+                    function (err, result) {
+                        if (err) {
+                            connection.release();
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            connection.query(
+                                "UPDATE FOTOS SET PUNTOS=? WHERE CORREO=?",
+                                [puntos -= puntos, email],
+                                function (err, result) {
+                                    connection.release();
+                                    if (err) {
+                                        callback(new Error("Error de acceso a la base de datos"));
+                                    } else {
+                                        callback(null, puntos);
+                                    }
+                                }
+                            )
+                        }
+                    }
+                )
+            }
+        })
+    }
+
+    listarFotos(email, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(new Error("Error de conexión a la base de datos"))
+            } else {
+                connection.query(
+                    "SELECT * FROM FOTOS WHERE ID_USUARIO=?",
+                    [email],
+                    function (err, result) {
+                        connection.release();
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            callback(null, result);
+                        }
+                    }
+                )
+            }
+        })
+    }
 }
 
 

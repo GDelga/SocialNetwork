@@ -45,32 +45,23 @@
     <main>
         <div class="divMain">
             <div>
-                <h2><%=datos.pregunta.pregunta.PREGUNTA%></h2>
+                <h2>Notificaciones</h2>
             </div>
-            <div class="contenedorPregunta">
-                <h4>
-                    ¿Qué crees que ha respondido <%=datos.nombre%>?
-                </h4>
+            <%if(datos.notificaciones.length > 0) {%>
+            <%datos.notificaciones.forEach(element => {%>
+            <div class="divAddRespuesta">
+                <div><label><%=element.TEXTO%></label></div>
+                <div><a href="/notificacion/leido/<%=element.ID%>">Marcar como leido</a></div>
             </div>
-            <div class="divResultadoBusqueda">
-                    <form action="/pregunta/adivinar" method="POST" class="foto500">
-                        <input type="hidden" name="id" value="<%=datos.pregunta.pregunta.ID%>">
-                        <input type="hidden" name="pregunta" value="<%=datos.pregunta.pregunta.PREGUNTA%>">
-                        <input type="hidden" name="amigo" value="<%=datos.amigo%>">
-                        <input type="hidden" name="nombre" value="<%=datos.nombre%>">
-                        <table>
-                            <%datos.pregunta.respuestas.forEach(element => { %>
-                            <tr>
-                                <td><input type="radio" name="respuesta" value="<%=element.ID%>[=]<%=element.RESPUESTA%>"><%=element.RESPUESTA%></td>
-                            </tr> 
-                            <%})%>
-                        </table>
-                        <div class="center"><button class="botonCrearPregunta" type="submit">Adivinar</button></div>
-                    </form>
+            <%});%>
+            <div class="center margenAbajo"><a class="botonCrearPregunta" href="/notificacion/leido">Marcar todos como
+                    leido</a></div>
+            <%} else {%>
+            <div class="divAddRespuesta">
+                <div><label>No tienes notificaciones ;(</label></div>
             </div>
+            <%}%>
         </div>
     </main>
-
 </body>
-
 </html>

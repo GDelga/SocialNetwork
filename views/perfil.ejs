@@ -44,6 +44,12 @@
     </header>
     <main>
         <div class="divMain">
+            <%if(datos.notificaciones.length > 0) {%>
+            <div class="divAddRespuesta">
+                <div><label>¡¡¡Tienes notificaciones!!!</label></div>
+                <div><a href="/usuario/notificaciones">Ver Notificaciones</a></div>
+            </div>
+            <%}%>
             <div>
                 <h2>Tu perfil</h2>
             </div>
@@ -54,17 +60,39 @@
                     </div>
                     <div class="info">
                         <ul>
-                            <li><%=datos.usuario.NOMBRE%></li>
+                            <li><%=usuarioLogueado.NOMBRE%></li>
                             <%if(datos.edad != null) {%>
-                                <li><%=datos.edad + " años"%></li>
+                            <li><%=datos.edad + " años"%></li>
                             <%}%>
-                            <li><%=datos.usuario.GENERO%></li>
+                            <li><%=usuarioLogueado.GENERO%></li>
                             <li><%=usuarioLogueado.PUNTOS + " puntos"%></li>
                         </ul>
                     </div>
                 </div>
                 <div class="center"><a class="boton seleccionado" href="/usuario/modificar">Modificar perfil</a></div>
             </div>
+            <%if(datos.fotos.length > 0) {%>
+                <div class="margenArriba">
+                    <h2>Tus fotos</h2>
+                </div>
+                <form action="" method="post">
+                    <div class="divAddRespuesta">
+                        <div><input type="file" value="image/*" name="foto"></div>
+                        <div><button type="submit" formaction="/pregunta/addRespuesta">Añadir</button></div>
+                    </div>
+                </form>
+            <%}%>
+            <%if(usuarioLogueado.PUNTOS >= 100) {%>
+                <div class="margenArriba">
+                    <h2>¡Si tienes 100 puntos puedes subir una imagen!</h2>
+                </div>
+                <form action="" method="post">
+                    <div class="divAddRespuesta">
+                        <div><input type="file" value="image/*" name="foto"></div>
+                        <div><button type="submit" formaction="/pregunta/addRespuesta">Añadir</button></div>
+                    </div>
+                </form>
+            <%}%>
         </div>
     </main>
 
