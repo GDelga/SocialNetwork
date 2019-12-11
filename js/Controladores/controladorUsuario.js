@@ -116,7 +116,7 @@ function postRegistro(request, response, next) {
                 next(err)
             } else {
                 request.session.currentUser = user.email;
-                response.redirect("/perfil");
+                response.redirect("/usuario/perfil");
             }
         });
     }
@@ -399,7 +399,8 @@ function getPerfilUsuario(request, response, next) {
                         datos: {
                             edad: diff,
                             fotos: result,
-                            usuario: usuario
+                            usuario: usuario,
+                            amigo: request.params.amigo
                         }
                     });
                 }
