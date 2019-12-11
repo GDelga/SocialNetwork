@@ -204,11 +204,11 @@ function postAdivinarPregunta(request, response, next) {
                     next(err);
                 } else {
                     request.session.datosUsuario.PUNTOS = result.puntos;
-                    let texto = "Tu amig@ " + request.body.nombre +
+                    let texto = "Tu amig@ " + request.session.datosUsuario.NOMBRE +
                         " ha " + result.resultado + " la pregunta: " +
                         request.body.pregunta + ". Tú respondiste: " + result.respuesta +
                         " y tu amig@: " + sep[1] + ".";
-                    daoNotificaciones.mandarNotificacion(request.session.currentUser, texto,
+                    daoNotificaciones.mandarNotificacion(request.body.amigo, texto,
                         function cb_mandarNotificacion(err, result) {
                             if (err) {
                                 console.log(err.message);

@@ -124,7 +124,7 @@ class DAOPreguntas {
                                         } else {
                                             let respuestasOriginales = result;
                                             connection.query(
-                                                "SELECT ID_RESPUESTA, RESPUESTA, RESPONDER.ID_PREGUNTA, ORIGINAL FROM RESPONDER JOIN RESPUESTAS ON RESPONDER.ID_RESPUESTA = RESPUESTAS.ID " +
+                                                "SELECT ID, RESPUESTA, RESPONDER.ID_PREGUNTA, ORIGINAL FROM RESPONDER JOIN RESPUESTAS ON RESPONDER.ID_RESPUESTA = RESPUESTAS.ID " +
                                                 "WHERE ID_USUARIO =? AND RESPONDER.ID_PREGUNTA =?",
                                                 [amigo, pregunta],
                                                 function (err, result) {
@@ -134,11 +134,13 @@ class DAOPreguntas {
                                                     } else {
                                                         if (result.length == 1) {
                                                             let respuestaCorrecta = [];
-                                                            if (!result[0].ORIGINAL) respuestaCorrecta = result;
+                                                            if (!result[0].ORIGINAL) {
+                                                                respuestaCorrecta = result;
+                                                            } 
                                                             connection.query(
-                                                                "SELECT * FROM RESPUESTAS WHERE ID_PREGUNTA = ? AND ORIGINAL=? " +
+                                                                "SELECT * FROM RESPUESTAS WHERE ID_PREGUNTA = ? AND ORIGINAL=? AND ID !=? " +
                                                                 "ORDER BY RAND() LIMIT ?",
-                                                                [pregunta, false, (respuestasOriginales.length - respuestaCorrecta.length)],
+                                                                [pregunta, false, result[0].ID, (respuestasOriginales.length - respuestaCorrecta.length)],
                                                                 function (err, result) {
                                                                     connection.release();
                                                                     if (err) {
