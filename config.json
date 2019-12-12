@@ -1,0 +1,9 @@
+{
+    "mysqlConfig": {
+        "host": "localhost",
+        "user": "root",
+        "password": "",
+        "database": "facetoface"
+    },
+    "port": 3000
+}

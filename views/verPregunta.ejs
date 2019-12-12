@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/imagenes/logo.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <title>Face To Face</title>
+</head>
+
+<body>
+    <header>
+        <div class="divHeader">
+            <div class="divLogoTitulo">
+                <div class="divTitulo">
+                    <div class="faceToFaceLogo">
+                        <img src="/imagenes/logo.png" alt="">
+                    </div>
+                    <div>
+                        <h1>Face To Face</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divMenuPerfil">
+            <div class="seleccionado divPerfil">
+                <a href="/usuario/perfil">Perfil</a>
+            </div>
+            <div class="seleccionado divPerfil">
+                <a href="/usuario/amigos">Amigos</a>
+            </div>
+            <div class="seleccionado divPerfil">
+                <a href="/pregunta/preguntas">Preguntas</a>
+            </div>
+            <div class="seleccionado divPerfil">
+                <a href="/usuario/logout">Desconectarse</a>
+            </div>
+            <div class="divPerfil">
+                <div class="divFotoPerfil"><img src="/usuario/imagenUsuario/<%=usuarioLogueado.FOTO%>" alt=""></div>
+                <div class="divDatos"><%=usuarioLogueado.PUNTOS + " puntos"%></div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="divMain">
+            <div>
+                <h2><%=datos.pregunta%></h2>
+            </div>
+
+            <div class="contenedorPregunta">
+                <div class="infoSuperior">
+                    <%if(!datos.respondido) {%>
+                    <label>
+                        No has contestado a esta pregunta
+                    </label>
+                    <a href="/pregunta/responder/<%=datos.id_p%>">Contestar pregunta</a>
+                    <%} else {%>
+                    <label>
+                        Ya has respondido a esta pregunta
+                    </label>
+                    <%}%>
+                </div>
+                <div>
+                    <h3>
+                        L@s siguientes amig@s han contestado a esta pregunta:
+                    </h3>
+                </div>
+                <div class="divResultadoBusqueda">
+                <%if(datos.amigos.length > 0) {%>
+                    <%datos.amigos.forEach(element => {%>
+                    <%if(!element.RESULTADO) {%>
+                    <div class="divPerfilEncontrado fondoAmarillo">
+                        <div><%=element.NOMBRE%></div>
+                        <img class="imgPerfilBusqueda margenAbajo" src="/usuario/imagenUsuario/<%=element.FOTO%>" alt="">
+                        <a href="/pregunta/adivinar/<%=datos.id_p%>/<%=element.CORREO%>/<%=element.NOMBRE%>">Adivinar</a>
+                    </div>
+                    <%} else if(element.RESULTADO  == "FALLADA"){%>
+                    <div class="divPerfilEncontrado fondoRojo">
+                        <div><%=element.NOMBRE%></div>
+                        <img class="imgPerfilBusqueda" src="/usuario/imagenUsuario/<%=element.FOTO%>" alt="">
+                        <div class="colorRojo">Has fallado</div>
+                    </div>
+                    <%} else {%>
+                    <div class="divPerfilEncontrado fondoVerde">
+                        <div><%=element.NOMBRE%></div>
+                        <img class="imgPerfilBusqueda" src="/usuario/imagenUsuario/<%=element.FOTO%>" alt="">
+                        <div class="colorVerde">Has acertado</div>
+                    </div>
+                    <%}%>
+                    <%});%>
+                <%} else {%>
+                    <div class="divPerfilEncontrado fondoAmarillo">
+                        <div>Ningún amigo ha respondido a esta pregunta</div>
+                    </div>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
