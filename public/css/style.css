@@ -98,7 +98,7 @@ h2 {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none; /*Enlaces sin subrayado*/
     color: black;
 }
 
@@ -108,11 +108,11 @@ a {
     grid-template-rows: auto auto;
     margin-left: 20px;
     margin-right: 20px;
-    grid-row-gap: 5px;
+    grid-row-gap: 5px; /*Separacion entre filas*/
 }
 
 .gridColumnInicio {
-    grid-column: 1 / 3;
+    grid-column: 1 / 3; /*Que ocupe desde un inicio hasta final + 1*/
 }
 
 .formRegistro, .formModificar {
@@ -125,7 +125,7 @@ a {
 
 .boton {
     border-radius: 5px;
-    white-space: nowrap;
+    white-space: nowrap; /*Para que el enlace no se parta por la mitad*/
     border: 2px solid rgb(255, 54, 27);
     background-color: #ff7957;
     padding-top: 1px;
@@ -134,7 +134,7 @@ a {
     padding-right: 15px;
     cursor: pointer;
     color: white;
-    font-size: inherit;
+    font-size: inherit; /*Para heredar el tamaño de la letra*/
 }
 
 .formInicioSesion input {
@@ -255,8 +255,7 @@ a {
 li {
     font-size: 1.3em;
     color: black;
-    list-style: none;
-
+    list-style: none; /*Para quitar el estilo de la lista, puntos, cuadrados, numeros...*/
 }
 
 .divResultadoBusqueda {
@@ -329,7 +328,7 @@ td {
 
 table {
     font-size: 1.7em;
-    border-spacing: 10px;
+    border-spacing: 10px; /*Espacio entre filas*/
     width: 100%;
 }
 
@@ -369,23 +368,12 @@ h4 {
     padding: 3px
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /* Cosas necesarias para el html mis amigos*/
 
 .contenidoSolicitudAmistad {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /*Si no entra, pasalo a la siguiente linea*/
     text-align: left;
     margin-top: auto;
     margin-bottom: auto;
@@ -517,15 +505,6 @@ h4 {
 .fondoAzul {
     background: rgb(184, 225, 250);
 }
-
-
-
-
-
-
-
-
-
 
 /* Cosas necesarias para el html boton contestar pregunta*/
 .contenedorPregunta {

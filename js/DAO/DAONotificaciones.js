@@ -8,6 +8,7 @@ class DAONotificaciones {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
+                //Insertamos una notificación nueva como no leida
                 connection.query(
                     "INSERT INTO NOTIFICACIONES (ID_USUARIO, VISTO, TEXTO) " +
                     "VALUES (?, ?, ?)",
@@ -28,6 +29,7 @@ class DAONotificaciones {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
+                //Buscamos todas las querys no leidas del usuario
                 connection.query(
                     "SELECT * FROM NOTIFICACIONES WHERE ID_USUARIO=? AND VISTO=?",
                     [email, false],
@@ -47,6 +49,7 @@ class DAONotificaciones {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
+                //Actualiza el estado de la notificación a leido
                 connection.query(
                     "UPDATE NOTIFICACIONES SET VISTO=? WHERE ID=? AND ID_USUARIO=?",
                     [true, id, email],
@@ -66,6 +69,7 @@ class DAONotificaciones {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
+                //Actualiza el estado de todas las notificaciones del usuario a leidas
                 connection.query(
                     "UPDATE NOTIFICACIONES SET VISTO=? WHERE ID_USUARIO=?",
                     [true, email],
@@ -81,4 +85,6 @@ class DAONotificaciones {
     }
 }
 
+/*IMPORTANTE!!!!!!!!
+Exportar la clase para que el controlador tenga acceso a ella*/
 module.exports = DAONotificaciones;

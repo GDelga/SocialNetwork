@@ -58,6 +58,8 @@
                     <%if(datos.respuestas == undefined) { %>
                         <div>Nº Respuestas:</div>
                         <div><input type="number" id="respuestas" name="respuestas" min="2"></div>
+                        <!--formaction sireve para indicar una acción propia en el botón de tal manera que no use la accion
+                        indicada en el formulario-->
                         <div class="center gridColumnInicio"><button class="botonVerde" type="submit"
                                 formaction="/pregunta/insertarRespuestas">Insertar Respuestas</button></div>
                     <%}else {%>

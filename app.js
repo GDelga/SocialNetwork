@@ -1,4 +1,5 @@
 // app.js
+//Declaramos todas las librerias y node modules necesarios
 const routerUsuario = require("./js/Routers/routerUsuario");
 const routerPregunta = require("./js/Routers/routerPregunta");
 const routerNotificaciones = require("./js/Routers/routerNotificaciones");
@@ -17,6 +18,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
+//Añadimos los routers de cada entidad
 app.use("/usuario", routerUsuario);
 app.use("/pregunta", routerPregunta);
 app.use("/notificacion", routerNotificaciones);

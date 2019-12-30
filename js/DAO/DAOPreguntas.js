@@ -8,6 +8,7 @@ class DAOPreguntas {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
+                //Inserta los datos de la pregunta en su tabla
                 connection.query(
                     "INSERT INTO PREGUNTAS (CREADOR, PREGUNTA) " +
                     "VALUES (?, ?)",
@@ -17,7 +18,8 @@ class DAOPreguntas {
                             connection.release();
                             callback(new Error("Error de acceso a la base de datos"));
                         } else {
-                            let query = "INSERT INTO RESPUESTAS (ID_PREGUNTA, ORIGINAL, RESPUESTA) VALUES";
+                            //Si se ha podido inserttar, creamos la query para insertar varias respuestas en su tabla
+                            let query = "INSERT INTO RESPUESTAS (ID_PREGUNTA, ORIGINAL, RESPUESTA) VALUES ";
                             for (let i in respuestas) {
                                 query += "(" + result.insertId + ", " + true + ", '" + respuestas[i] + "')";
                                 if (i != respuestas.length - 1) query += ",";
@@ -44,6 +46,7 @@ class DAOPreguntas {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
                 connection.query(
+                    //Inserta una nueva respuesta a una pregunta existente
                     "INSERT INTO RESPUESTAS (ID_PREGUNTA, ORIGINAL, RESPUESTA) " +
                     "VALUES (?, ?, ?)",
                     [pregunta, false, respuesta],
@@ -64,6 +67,7 @@ class DAOPreguntas {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
                 connection.query(
+                    //Seleccionamos los datos de la pregunta
                     "SELECT * FROM PREGUNTAS WHERE ID = ?",
                     [pregunta],
                     function (err, result) {
@@ -73,6 +77,7 @@ class DAOPreguntas {
                         } else {
                             if (result.length == 1) {
                                 let n_pregunta = result[0];
+                                //Buscamos las respuestas de la preguntga
                                 connection.query(
                                     "SELECT * FROM RESPUESTAS WHERE ID_PREGUNTA = ?",
                                     [pregunta],
@@ -104,6 +109,7 @@ class DAOPreguntas {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
+                //Buscamos los datos de la pregunta
                 connection.query(
                     "SELECT * FROM PREGUNTAS WHERE ID = ?",
                     [pregunta],
@@ -114,6 +120,7 @@ class DAOPreguntas {
                         } else {
                             if (result.length == 1) {
                                 let n_pregunta = result[0];
+                                //Buscamos todas las repuestas originales de la pregunta
                                 connection.query(
                                     "SELECT * FROM RESPUESTAS WHERE ID_PREGUNTA=? AND ORIGINAL=?",
                                     [pregunta, true],
@@ -123,6 +130,7 @@ class DAOPreguntas {
                                             callback(new Error("Error de acceso a la base de datos"));
                                         } else {
                                             let respuestasOriginales = result;
+                                            //Buscamos la respuesta que dió nestro amigo
                                             connection.query(
                                                 "SELECT ID, RESPUESTA, RESPONDER.ID_PREGUNTA, ORIGINAL FROM RESPONDER JOIN RESPUESTAS ON RESPONDER.ID_RESPUESTA = RESPUESTAS.ID " +
                                                 "WHERE ID_USUARIO =? AND RESPONDER.ID_PREGUNTA =?",
@@ -134,12 +142,14 @@ class DAOPreguntas {
                                                     } else {
                                                         if (result.length == 1) {
                                                             let respuestaCorrecta = [];
+                                                            //Si la respuesta no estaba en las originales, la añadimos
                                                             if (!result[0].ORIGINAL) {
                                                                 respuestaCorrecta = result;
                                                             } 
+                                                            //Buscamos aleatoriamente otras respuestas no originales hasta rellenar las necesarias
                                                             connection.query(
                                                                 "SELECT * FROM RESPUESTAS WHERE ID_PREGUNTA = ? AND ORIGINAL=? AND ID !=? " +
-                                                                "ORDER BY RAND() LIMIT ?",
+                                                                "ORDER BY RAND() LIMIT ?", //Mi limite es las respuestas originales - la respuesta que ha dado mi amigo
                                                                 [pregunta, false, result[0].ID, (respuestasOriginales.length - respuestaCorrecta.length)],
                                                                 function (err, result) {
                                                                     connection.release();
@@ -147,6 +157,7 @@ class DAOPreguntas {
                                                                         callback(new Error("Error de acceso a la base de datos"));
                                                                     } else {
                                                                         callback(null, {
+                                                                            //Concatenar todas las respuestas
                                                                             respuestas: respuestasOriginales.concat(respuestaCorrecta, result),
                                                                             pregunta: n_pregunta
                                                                         })
@@ -179,6 +190,7 @@ class DAOPreguntas {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
+                //Insertar una respuesta de una persona
                 connection.query(
                     "INSERT INTO RESPONDER (ID_USUARIO, ID_PREGUNTA, ID_RESPUESTA) " +
                     "VALUES (?, ?, ?)",
@@ -201,6 +213,7 @@ class DAOPreguntas {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
+                //Buscar 5 preguntas aleatorias
                 connection.query(
                     "SELECT DISTINCT * FROM PREGUNTAS ORDER BY RAND() " +
                     "LIMIT 5",
@@ -217,11 +230,13 @@ class DAOPreguntas {
         })
     }
 
+    //No se usa
     buscarPreguntasNoRespondidas(email, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
+                //Buscar 5 preguntas no respondidas aleatoriamente
                 connection.query(
                     "SELECT DISTINCT * FROM PREGUNTAS WHERE PREGUNTAS.ID NOT IN " +
                     "(SELECT ID_PREGUNTA FROM RESPONDER WHERE ID_USUARIO=?) ORDER BY RAND() " +
@@ -245,6 +260,7 @@ class DAOPreguntas {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
+                //Buscamos si he respondido o no a una pregunta
                 connection.query(
                     "SELECT * FROM RESPONDER WHERE ID_USUARIO=? AND ID_PREGUNTA=?",
                     [email, pregunta],
@@ -266,6 +282,9 @@ class DAOPreguntas {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
+                //Busco entre mis amigos si han respondido a una pregunta, y si la han respondido me traigo el resultado
+                //en caso de que la haya intentado adivinar pondrá ACERTADA o FALLADA, en otro caso el resultado es null 
+                //y sabemos que no la hemos intentado adivinar
                 connection.query(
                     "SELECT DISTINCT CORREO, NOMBRE, FOTO, RESULTADO FROM USUARIOS AS USER JOIN " +
                     "(SELECT HAN_RESPONDIDO.ID_USUARIO, RESULTADO FROM " +
@@ -293,6 +312,7 @@ class DAOPreguntas {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"))
             } else {
+                //Buscamos la respuesta dada por nuestro amigo
                 connection.query(
                     "SELECT ID_RESPUESTA, RESPUESTA FROM RESPONDER JOIN RESPUESTAS ON RESPONDER.ID_RESPUESTA = RESPUESTAS.ID " +
                     "WHERE ID_USUARIO =? AND RESPONDER.ID_PREGUNTA =?",
@@ -307,6 +327,7 @@ class DAOPreguntas {
                             if (result[0].ID_RESPUESTA == respuesta) {
                                 resultado = "ACERTADA";
                             }
+                            //Insertamos el resultado de intentar adivinarlo
                             connection.query(
                                 "INSERT INTO RESPONDER_AMIGOS (ID_USUARIO, ID_AMIGO, ID_PREGUNTA, RESULTADO) " +
                                 "VALUES (?, ?, ?, ?)",
@@ -317,6 +338,7 @@ class DAOPreguntas {
                                         callback(new Error("Error de acceso a la base de datos"));
                                     } else {
                                         if (resultado == "ACERTADA") {
+                                            //Si hemos acertado actualizamos los puntos
                                             connection.query(
                                                 "UPDATE USUARIOS SET PUNTOS = ? WHERE CORREO = ? ",
                                                 [puntos += 50, email],
@@ -352,4 +374,6 @@ class DAOPreguntas {
     }
 }
 
+/*IMPORTANTE!!!!!!!!
+Exportar la clase para que el controlador tenga acceso a ella*/
 module.exports = DAOPreguntas;

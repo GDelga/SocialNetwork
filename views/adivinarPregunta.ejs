@@ -54,6 +54,7 @@
             </div>
             <div class="divResultadoBusqueda">
                     <form action="/pregunta/adivinar" method="POST" class="foto500">
+                        <!--Type hidden sirve para enviar datos relevantes en el formulario sin que se vean por pantalla-->
                         <input type="hidden" name="id" value="<%=datos.pregunta.pregunta.ID%>">
                         <input type="hidden" name="pregunta" value="<%=datos.pregunta.pregunta.PREGUNTA%>">
                         <input type="hidden" name="amigo" value="<%=datos.amigo%>">
@@ -61,6 +62,8 @@
                         <table>
                             <%datos.pregunta.respuestas.forEach(element => { %>
                             <tr>
+                                <!--Usamos [=] como cadena de texto que nos separe el id y el contenido de la respuesta,
+                                    para poder mandar dos cosas en el mismo campo-->
                                 <td><input type="radio" name="respuesta" value="<%=element.ID%>[=]<%=element.RESPUESTA%>"><%=element.RESPUESTA%></td>
                             </tr> 
                             <%})%>
